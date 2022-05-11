@@ -1,12 +1,19 @@
-const express = require('express');
-require('./db/connection.js');
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const v1Router = require("./src/v1");
+const dotenv = require("dotenv");
+dotenv.config({ path: path.resolve("./config/.env") });
+require("./src/db/connection.js");
+
 const app = express();
 
-const productRouter = require('./express-api/api/routes/productRouter');
-const cartRouter = require('./express-api/api/routes/cartRouter');
+app.use(express.json());
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/products', productRouter);
-app.use('/cart', cartRouter);
+app.use(v1Router);
+
 app.listen(3000, () => {
-    console.log('listning on port 3000');
+	console.log("listning on port 3000");
 });
