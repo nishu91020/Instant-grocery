@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const CustomerSchema = new Schema({
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
 	email: { type: String, required: true },
@@ -19,8 +19,12 @@ const UserSchema = new Schema({
 			required: true,
 		},
 	],
+
+	cart: new Schema({
+		products: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Product", required: true }],
+	}),
 });
 
-const User = mongoose.model("User", UserSchema);
+const Customer = mongoose.model("Customer", CustomerSchema);
 
-module.exports = User;
+module.exports = Customer;
