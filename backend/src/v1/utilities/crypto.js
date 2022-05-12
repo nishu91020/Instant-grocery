@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-const genSalt = (size) => {
+const generateSalt = (size) => {
 	return crypto.randomBytes(size).toString("hex");
 };
 
@@ -14,7 +14,7 @@ const validateHash = (hash, password, salt) => {
 };
 
 module.exports = {
-	genSalt,
+	generateSalt,
 	generateHash,
 	validateHash,
 };
