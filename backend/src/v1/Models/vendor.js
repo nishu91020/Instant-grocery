@@ -16,10 +16,10 @@ const VendorSchema = Schema({
 			ref: "Order",
 		},
 	],
-	address: {
+	address: [{
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: "Address",
-	},
+	}],
 	products: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Product" }],
 });
 
