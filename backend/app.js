@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(v1Router);
+app.use("/api/v1/", v1Router);
 
 app.listen(3000, () => {
 	console.log("listning on port 3000");
