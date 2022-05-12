@@ -1,7 +1,8 @@
-const express = require('express');
+const express = require("express");
+const { addVendor } = require("../controllers/vendorController");
 
-const customerRouter = express.Router();
-const productRouter = require('./productRouter');
+const vendorRouter = express.Router();
 
-customerRouter.use('/products', productRouter);
-module.exports = customerRouter;
+vendorRouter.post("/", addVendor);
+
+module.exports = vendorRouter;
