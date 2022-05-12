@@ -1,9 +1,7 @@
 const Vendor = require("../Models/vendor");
 const crypto = require("crypto");
-const {genSalt, generateHash} = require("./utils")
+const { genSalt, generateHash } = require("./utils");
 
-const addVendor = async (req, res, next) => {
-	const salt =  genSalt(16)
 const {
 	addNewVendor,
 	removeVendorById,
@@ -39,10 +37,6 @@ exports.addVendor = async (req, res, next) => {
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		email: req.body.email,
-		password: {
-			salt: salt,
-			hash: generateHash(req.body.password, salt),
-		},
 		password: req.body.password,
 	};
 
@@ -130,4 +124,3 @@ exports.updateVendor = async (req, res, next) => {
 		});
 	}
 };
-}

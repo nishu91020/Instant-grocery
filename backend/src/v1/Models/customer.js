@@ -6,10 +6,7 @@ const CustomerSchema = new Schema({
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
 	email: { type: String, required: true },
-	password: {
-		salt: { type: String, required: true },
-		hash: { type: String, required: true },
-	},
+	password: { type: String, required: true },
 
 	addresses: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Address", required: true }],
 	orders: [
