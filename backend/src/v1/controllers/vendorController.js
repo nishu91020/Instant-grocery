@@ -1,13 +1,6 @@
 const Vendor = require("../Models/vendor");
 const crypto = require("crypto");
-
-function genSalt(size) {
-	return crypto.randomBytes(size).toString("hex");
-}
-
-function generateHash(password, salt) {
-	return crypto.pbkdf2Sync(password, salt, 10000, 64, "sha512").toString("hex");
-}
+const {genSalt, generateHash} = require("./utils")
 
 const addVendor = async (req, res, next) => {
 	const vendorData = {
