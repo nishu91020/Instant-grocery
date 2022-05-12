@@ -5,7 +5,7 @@
 - Orders
 - Address
 - cart
-- Inventory - array of products
+- Inventory - array of products //not required
 - Product {name, vendor, price, quantity, status [out of stock, available, images], description, reviews, rating }
 - reviews { customer, rating, description}
 
