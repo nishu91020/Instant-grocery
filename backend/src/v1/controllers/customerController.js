@@ -2,7 +2,6 @@
 exports.register = (req, res, next)=>{
     res.send("customer registered")
 
-
 }
 
 
