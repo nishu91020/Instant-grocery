@@ -3,13 +3,14 @@ const crypto = require("crypto");
 const {genSalt, generateHash} = require("./utils")
 
 const addVendor = async (req, res, next) => {
+	const salt =  genSalt(16)
 	const vendorData = {
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		email: req.body.email,
 		password: {
-			salt: genSalt(16),
-			hash: generateHash(req.body.password),
+			salt: salt,
+			hash: generateHash(req.body.password, salt),
 		},
 	};
 
