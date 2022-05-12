@@ -14,7 +14,7 @@ const customerRouter = express.Router();
 
 customerRouter.post("/register", customerController.register)
 customerRouter.get("/:id", customerController.getProfile)
-customerRouter.post("/:id/update", customerController.updateProfile) //  update profile
+customerRouter.patch("/:id", customerController.updateProfile) //  update profile
 
 
 customerRouter.use('/cart', cartRouter);
