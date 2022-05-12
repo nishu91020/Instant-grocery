@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const VendorSchema = Schema({
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
-	email: { type: String, required: true },
+	email: { type: String, required: true, unique: true },
 	password: {
 		salt: { type: String, required: true },
 		hash: { type: String, required: true },
@@ -19,7 +19,6 @@ const VendorSchema = Schema({
 	address: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: "Address",
-		required: true,
 	},
 	products: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Product" }],
 });
