@@ -1,6 +1,6 @@
 const Product = require('../Models/product');
 
-exports.addProductToInventory = function (req, res, next) {
+exports.addProductToInventory = async (req, res, next) => {
     const product = new Product({
         name: req.body.name,
         img: req.body.img,
@@ -12,19 +12,24 @@ exports.addProductToInventory = function (req, res, next) {
         rating: req.body.rating,
         status: req.body.status
     });
-    product.save(err => {
-        if (err) {
-            return next(err);
-        }
-        res.send('product saved');
-    });
+    try {
+        const new_product = product.save();
+        res.send(new_product);
+    } catch (err) {
+        res.send('error occured');
+    }
 };
-exports.deleteProductFromInventory = function (req, res, next) {
-    Product.findById(req.params.id).deleteOne().then(() => {
-        res.status(201).send(`product ${req.params.id} deleted`);
-    });
+exports.deleteProductFromInventory = async (req, res, next) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        product.deleteOne().then(() => {
+            res.status(201).send(`product ${req.params.id} deleted`);
+        });
+    } catch (err) {
+        res.send('error occured!');
+    }
 };
-exports.modifyProductInInventory = function (req, res, next) {
+exports.modifyProductInInventory = async (req, res, next) => {
     const product = new Product({
         name: req.body.name,
         img: req.body.img,
@@ -37,8 +42,12 @@ exports.modifyProductInInventory = function (req, res, next) {
         status: req.body.status,
         _id: req.params.id
     });
-    Product.findByIdAndUpdate(req.params.id, product, {}, (err, modifiedProduct) => {
-        if (err) next(err);
-        res.send(modifiedProduct);
-    });
+    try {
+        Product.findByIdAndUpdate(req.params.id, product, {}, (err, modifiedProduct) => {
+            if (err) next(err);
+            res.send(modifiedProduct);
+        });
+    } catch (err) {
+        res.send('error occured !!');
+    }
 };
