@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-
+const { generateHash } = require('../utilities/crypto');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 
 const CustomerSchema = new Schema({
     firstName: { type: String, required: true },
@@ -20,6 +21,29 @@ const CustomerSchema = new Schema({
     cart: new Schema({
         products: [ { type: mongoose.SchemaTypes.ObjectId, ref: 'Product' } ]
     })
+});
+
+//login middleware
+
+CustomerSchema.static.findCustomerByCredential = async (email, password) => {
+    const customer = Customer.findOne({ email });
+    if (!customer) {
+        throw new Error('Unable to login');
+    }
+    const isMatch = bcrypt.compare(password, customer.password);
+    if (!isMatch) {
+        throw new Error('Unable to login');
+    }
+    return customer;
+};
+
+//hash password before storing
+CustomerSchema.pre('save', async function (next) {
+    const user = this;
+    if (user.isModified('password')) {
+        user.password = await generateHash(user.password, 'myfirstapi');
+    }
+    next();
 });
 
 const Customer = mongoose.model('Customer', CustomerSchema);

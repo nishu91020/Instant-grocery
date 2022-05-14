@@ -16,6 +16,14 @@ exports.register = async (req, res, next) => {
     }
 };
 
+exports.login = async (req, res, next) => {
+    try {
+        const customer = await Customer.findCustomerByCredential(req.email, req.password);
+        res.status(200).send(customer);
+    } catch (e) {
+        res.status(400).send();
+    }
+};
 exports.getProfile = async (req, res, next) => {
     try {
         const customer = await Customer.findById(req.params.id);
@@ -31,20 +39,16 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.updateProfile = async (req, res, next) => {
-    const customer = new Customer({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: req.body.password,
-        _id: req.params.id
-    });
+    const updates = Object.keys(req.body);
     try {
-        Customer.findByIdAndUpdate(req.params.id, customer, {}, async (err, updatedCustomer) => {
-            if (err) next(err);
-            res.send(updatedCustomer);
+        const customer = await Customer.findById(req.params.id);
+        updates.forEach(update => {
+            customer[update] = req.body[update];
         });
+        await customer.save();
+        res.send(customer);
     } catch (err) {
-        res.send('error occured');
+        res.send(err);
     }
 };
 
