@@ -12,19 +12,16 @@ const customerRouter = express.Router();
 // - /:id/orders/:order_id                     GET particular order
 // - /:id/orders/                              POST create new order
 
-customerRouter.post("/register", customerController.register)
-customerRouter.get("/:id", customerController.getProfile)
-customerRouter.patch("/:id", customerController.updateProfile) //  update profile
-
+customerRouter.post('/register', customerController.register);
+customerRouter.post('/login', customerController.login);
+customerRouter.get('/:id', customerController.getProfile);
+customerRouter.patch('/:id', customerController.updateProfile); //  update profile
 
 customerRouter.use('/cart', cartRouter);
-customerRouter.get("/:id/cart", customerController.getCart)
+customerRouter.get('/:id/cart', customerController.getCart);
 
-customerRouter.get("/:id/orders", customerController.getOrders)
-customerRouter.get("/:id/orders/:orderId", customerController.getOrder)
-customerRouter.post("/:id/orders", customerController.createOrder) // new order
-
-
+customerRouter.get('/:id/orders', customerController.getOrders);
+customerRouter.get('/:id/orders/:orderId', customerController.getOrder);
+customerRouter.post('/:id/orders', customerController.createOrder); // new order
 
 module.exports = customerRouter;
-
