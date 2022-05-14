@@ -39,7 +39,6 @@ exports.modifyProductInInventory = function (req, res, next) {
     });
     Product.findByIdAndUpdate(req.params.id, product, {}, (err, modifiedProduct) => {
         if (err) next(err);
-        product.save();
-        res.send('product modified');
+        res.send(modifiedProduct);
     });
 };
