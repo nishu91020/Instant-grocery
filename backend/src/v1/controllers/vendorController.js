@@ -1,6 +1,5 @@
 const Vendor = require("../Models/vendor");
-const crypto = require("crypto");
-const { genSalt, generateHash } = require("./utils");
+const { addAddress, getAllAddresses, getAddress } = require("../services/addressServices");
 
 const {
 	addNewVendor,
@@ -9,6 +8,7 @@ const {
 	findVendorById,
 	findVendorByIdAndUpdate,
 } = require("../services/vendorServices");
+const { sendResponse } = require("./utility");
 
 exports.getVendor = async (req, res, next) => {
 	try {
@@ -120,6 +120,65 @@ exports.updateVendor = async (req, res, next) => {
 				error: {
 					message: error.message,
 				},
+			},
+		});
+	}
+};
+
+exports.addVendorAddress = async (req, res, next) => {
+	try {
+		const address = await addAddress(req.body.address, Vendor, req.params.vendorId);
+		res.status(200).json({
+			status: "success",
+			data: {
+				address,
+			},
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "failed",
+			data: {
+				error: {
+					message: err.message,
+				},
+			},
+		});
+	}
+};
+
+exports.getAllVendorAddresses = async (req, res, next) => {
+	try {
+		const addresses = await getAllAddresses(Vendor, req.params.vendorId);
+		res.status(200).json({
+			status: "success",
+			data: {
+				vendorId: req.params.vendorId,
+				addresses,
+			},
+		});
+	} catch (err) {
+		res.status(200).json({
+			status: "failed",
+			data: {
+				error: {
+					message: err.message,
+				},
+			},
+		});
+	}
+};
+
+exports.getVendorAddress = async (req, res, next) => {
+	try {
+		const address = await getAddress(req.params.addressId);
+		sendResponse(res, 200, "success", {
+			vendorId: req.params.vendorId,
+			address: address,
+		});
+	} catch (err) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: err.message,
 			},
 		});
 	}

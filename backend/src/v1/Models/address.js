@@ -35,13 +35,13 @@ const STATES = [
 ];
 
 const AddressSchema = new Schema({
-	streetNo: { type: String, maxlength: 20, required: true },
+	street: { type: String, maxlength: 20, required: true },
 	landmark: { type: String, maxlength: 50, required: true },
 	locality: { type: String, maxlength: 50, required: true },
 	city: { type: String, maxlength: 50, required: true },
 	state: { type: String, enum: STATES, required: true },
 	pincode: { type: String, length: 6, required: true },
-	contactNumber: { type: String, length: 12, required: true },
+	contactNumber: { type: String, length: 13, required: true },
 });
 
 const Address = mongoose.model("Address", AddressSchema);
