@@ -1,5 +1,11 @@
 const Vendor = require("../Models/vendor");
-const { addAddress, getAllAddresses, getAddress } = require("../services/addressServices");
+const {
+	addAddress,
+	getAllAddresses,
+	getAddress,
+	updateAddress,
+	deleteAddress,
+} = require("../services/addressServices");
 
 const {
 	addNewVendor,
@@ -172,6 +178,44 @@ exports.getVendorAddress = async (req, res, next) => {
 	try {
 		const address = await getAddress(req.params.addressId);
 		sendResponse(res, 200, "success", {
+			vendorId: req.params.vendorId,
+			address: address,
+		});
+	} catch (err) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: err.message,
+			},
+		});
+	}
+};
+
+exports.updateVendorAddress = async (req, res, next) => {
+	try {
+		const address = await updateAddress(
+			req.params.addressId,
+			req.body.address,
+			Vendor,
+			req.params.vendorId,
+		);
+		sendResponse(res, 200, "success", {
+			vendorId: req.params.vendorId,
+			address: address,
+		});
+	} catch (err) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: err.message,
+			},
+		});
+	}
+};
+
+exports.deleteVendorAddress = async (req, res, next) => {
+	try {
+		const address = await deleteAddress(req.params.addressId, Vendor, req.params.vendorId);
+		sendResponse(res, 200, "success", {
+			message: "successfully deleted",
 			vendorId: req.params.vendorId,
 			address: address,
 		});

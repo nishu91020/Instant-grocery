@@ -31,6 +31,21 @@ exports.findOne = async function (vendorDetails) {
 
 exports.findVendorByIdAndUpdate = async function (vendorId, vendorDetails) {
 	vendorId = mongoose.Types.ObjectId(vendorId);
-	const vendor = await Vendor.findByIdAndUpdate(vendorId, vendorDetails).exec();
+	const MODIFIABLE = ["password"];
+	const NON_MODIFIABLE = ["firstName", "lastName", "email", "orders", "products", "address"];
+	const vendor = await Vendor.findById(vendorId).exec();
+	const keys = Object.keys(vendorDetails).forEach((key) => {
+		if (MODIFIABLE.includes(key)) {
+			vendor[key] = vendorDetails[key];
+		} else {
+			if (NON_MODIFIABLE.includes(key)) {
+				throw new Error(`${key} property is not modifiable`);
+			} else {
+				throw new Error(`${key} property is invalid`);
+			}
+		}
+	});
+
+	await vendor.save();
 	return vendor;
 };
