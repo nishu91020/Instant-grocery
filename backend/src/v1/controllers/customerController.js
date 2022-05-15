@@ -8,9 +8,10 @@ exports.register = async (req, res, next) => {
             email: req.body.email,
             password: req.body.password
         });
+        const customer = await new_customer.save();
+        const token = customer.generateToken();
 
-        const user = await new_customer.save();
-        res.send('user saved!!');
+        res.send({ customer, token });
     } catch (err) {
         res.status(400).send('error occured !!');
     }
@@ -19,7 +20,8 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         const customer = await Customer.findCustomerByCredential(req.body.email, req.body.password);
-        res.status(200).send(customer);
+        const token = await customer.generateToken();
+        res.status(200).send({ customer, token });
     } catch (e) {
         res.status(400).send(e.message);
     }

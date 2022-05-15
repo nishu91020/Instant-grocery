@@ -1,6 +1,7 @@
 const express = require('express');
 const cartRouter = require('./cartRouter');
 const customerController = require('../controllers/customerController');
+const authMiddleware = require('../middlewares/auth');
 
 const customerRouter = express.Router();
 
@@ -14,7 +15,7 @@ const customerRouter = express.Router();
 
 customerRouter.post('/register', customerController.register);
 customerRouter.post('/login', customerController.login);
-customerRouter.get('/:id', customerController.getProfile);
+customerRouter.get('/:id', authMiddleware, customerController.getProfile);
 customerRouter.patch('/:id', customerController.updateProfile); //  update profile
 
 customerRouter.use('/cart', cartRouter);

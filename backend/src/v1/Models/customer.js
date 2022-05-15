@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { validateHash, generateSalt, generateHash } = require('../utilities/crypto');
 
+const jwt = require('jsonwebtoken');
+
 const CustomerSchema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
 
     address: [ { type: mongoose.SchemaTypes.ObjectId, ref: 'Address' } ],
@@ -20,8 +22,26 @@ const CustomerSchema = new Schema({
 
     cart: new Schema({
         products: [ { type: mongoose.SchemaTypes.ObjectId, ref: 'Product' } ]
-    })
+    }),
+    tokens: [
+        {
+            token: {
+                type: String,
+                required: true
+            }
+        }
+    ]
 });
+
+//creating token
+
+CustomerSchema.methods.generateToken = async function () {
+    const user = this;
+    const token = jwt.sign({ _id: user._id.toString() }, 'mysecret', { expiresIn: '2 days' });
+    user.tokens = user.tokens.concat({ token });
+    user.save();
+    return token;
+};
 
 //login middleware
 
