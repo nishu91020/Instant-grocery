@@ -18,10 +18,10 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
     try {
-        const customer = await Customer.findCustomerByCredential(req.email, req.password);
+        const customer = await Customer.findCustomerByCredential(req.body.email, req.body.password);
         res.status(200).send(customer);
     } catch (e) {
-        res.status(400).send();
+        res.status(400).send(e.message);
     }
 };
 exports.getProfile = async (req, res, next) => {
