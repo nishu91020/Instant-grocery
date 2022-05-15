@@ -8,6 +8,8 @@ const {
 	addVendorAddress,
 	getAllVendorAddresses,
 	getVendorAddress,
+	updateVendorAddress,
+	deleteVendorAddress,
 } = require("../controllers/vendorController");
 const productRouter = require("./productRouter");
 const vendorRouter = express.Router();
@@ -50,17 +52,11 @@ vendorRouter.get("/:vendorId/addresses", getAllVendorAddresses);
 vendorRouter.get("/:vendorId/addresses/:addressId", getVendorAddress);
 
 // Route to update the address of a vendor
-vendorRouter.patch("/:vendorId/addresses", (req, res, next) => {
-	res.status(200).json({
-		status: "success",
-		data: {
-			addresses: [
-				{
-					house: "Havelli",
-				},
-			],
-		},
-	});
-});
+// requires authentication
+vendorRouter.patch("/:vendorId/addresses/:addressId", updateVendorAddress);
+
+//Route to delete the address of a vendor
+//requires authentication
+vendorRouter.delete("/:vendorId/addresses/:addressId", deleteVendorAddress);
 
 module.exports = vendorRouter;
