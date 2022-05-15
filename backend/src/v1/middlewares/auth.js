@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
         req.customer = customer;
         next();
     } catch (e) {
-        res.send(e.message);
+        res.status(401).send('unauthorized!!');
     }
 };
 module.exports = authMiddleware;
