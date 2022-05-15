@@ -30,6 +30,7 @@ vendorRouter.post("/", addVendor);
 vendorRouter.patch("/:vendorId", updateVendor);
 
 // delete a vendor account
+// only for development
 vendorRouter.delete("/:vendorId", removeVendor);
 
 // TO-DO

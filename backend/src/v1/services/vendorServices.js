@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Address } = require("../Models/address");
 const Vendor = require("../Models/vendor");
 
 exports.addNewVendor = async function (vendorDetails) {
@@ -8,8 +9,18 @@ exports.addNewVendor = async function (vendorDetails) {
 };
 
 exports.removeVendorById = async function (vendorId) {
-	const _id = mongoose.Types.ObjectId(vendorId);
-	const vendor = await Vendor.findByIdAndDelete(_id).exec();
+	vendorId = mongoose.Types.ObjectId(vendorId);
+	const vendor = await Vendor.findById(vendorId).exec();
+	if (!vendor) {
+		throw new Error("vendor doesn't exists");
+	}
+
+	//removing all addresses of the vendor
+	vendor.address.forEach(addr => {
+		await Address.findByIdAndDelete(mongoose.Types.ObjectId(addr));
+	})
+	//deleting the vendor
+	vendor = await Vendor.findByIdAndDelete(vendor._id).exec();
 	return vendor;
 };
 
@@ -34,6 +45,9 @@ exports.findVendorByIdAndUpdate = async function (vendorId, vendorDetails) {
 	const MODIFIABLE = ["password"];
 	const NON_MODIFIABLE = ["firstName", "lastName", "email", "orders", "products", "address"];
 	const vendor = await Vendor.findById(vendorId).exec();
+	if (!vendor) {
+		throw new Error("vendor doesn't exists");
+	}
 	const keys = Object.keys(vendorDetails).forEach((key) => {
 		if (MODIFIABLE.includes(key)) {
 			vendor[key] = vendorDetails[key];

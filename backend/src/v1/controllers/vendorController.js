@@ -67,6 +67,7 @@ exports.addVendor = async (req, res, next) => {
 };
 
 // Remove Vendor
+// only for development
 exports.removeVendor = async (req, res, next) => {
 	try {
 		const vendor = await removeVendorById(req.params.vendorId);
