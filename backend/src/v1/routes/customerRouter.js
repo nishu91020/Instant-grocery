@@ -16,13 +16,13 @@ const customerRouter = express.Router();
 customerRouter.post('/register', customerController.register);
 customerRouter.post('/login', customerController.login);
 customerRouter.get('/:id', authMiddleware, customerController.getProfile);
-customerRouter.patch('/:id', customerController.updateProfile); //  update profile
+customerRouter.patch('/:id', authMiddleware, customerController.updateProfile); //  update profile
 
-customerRouter.use('/cart', cartRouter);
-customerRouter.get('/:id/cart', customerController.getCart);
+customerRouter.use('/cart', authMiddleware, cartRouter);
+customerRouter.get('/:id/cart', authMiddleware, customerController.getCart);
 
-customerRouter.get('/:id/orders', customerController.getOrders);
-customerRouter.get('/:id/orders/:orderId', customerController.getOrder);
-customerRouter.post('/:id/orders', customerController.createOrder); // new order
+customerRouter.get('/:id/orders', authMiddleware, customerController.getOrders);
+customerRouter.get('/:id/orders/:orderId', authMiddleware, customerController.getOrder);
+customerRouter.post('/:id/orders', authMiddleware, customerController.createOrder); // new order
 
 module.exports = customerRouter;
