@@ -1,11 +1,4 @@
 const Vendor = require("../Models/vendor");
-const {
-	addAddress,
-	getAllAddresses,
-	getAddress,
-	updateAddress,
-	deleteAddress,
-} = require("../services/addressServices");
 
 const {
 	addNewVendor,
@@ -127,103 +120,6 @@ exports.updateVendor = async (req, res, next) => {
 				error: {
 					message: error.message,
 				},
-			},
-		});
-	}
-};
-
-exports.addVendorAddress = async (req, res, next) => {
-	try {
-		const address = await addAddress(req.body.address, Vendor, req.params.vendorId);
-		res.status(200).json({
-			status: "success",
-			data: {
-				address,
-			},
-		});
-	} catch (err) {
-		res.status(400).json({
-			status: "failed",
-			data: {
-				error: {
-					message: err.message,
-				},
-			},
-		});
-	}
-};
-
-exports.getAllVendorAddresses = async (req, res, next) => {
-	try {
-		const addresses = await getAllAddresses(Vendor, req.params.vendorId);
-		res.status(200).json({
-			status: "success",
-			data: {
-				vendorId: req.params.vendorId,
-				addresses,
-			},
-		});
-	} catch (err) {
-		res.status(200).json({
-			status: "failed",
-			data: {
-				error: {
-					message: err.message,
-				},
-			},
-		});
-	}
-};
-
-exports.getVendorAddress = async (req, res, next) => {
-	try {
-		const address = await getAddress(req.params.addressId);
-		sendResponse(res, 200, "success", {
-			vendorId: req.params.vendorId,
-			address: address,
-		});
-	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
-			},
-		});
-	}
-};
-
-exports.updateVendorAddress = async (req, res, next) => {
-	try {
-		const address = await updateAddress(
-			req.params.addressId,
-			req.body.address,
-			Vendor,
-			req.params.vendorId,
-		);
-		sendResponse(res, 200, "success", {
-			vendorId: req.params.vendorId,
-			address: address,
-		});
-	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
-			},
-		});
-	}
-};
-
-exports.deleteVendorAddress = async (req, res, next) => {
-	try {
-		const address = await deleteAddress(req.params.addressId, Vendor, req.params.vendorId);
-		sendResponse(res, 200, "success", {
-			message: "successfully deleted",
-			vendorId: req.params.vendorId,
-			address: address,
-		});
-	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
 			},
 		});
 	}

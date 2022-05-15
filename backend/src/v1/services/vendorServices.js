@@ -16,9 +16,9 @@ exports.removeVendorById = async function (vendorId) {
 	}
 
 	//removing all addresses of the vendor
-	vendor.address.forEach(addr => {
+	vendor.address.forEach(async (addr) => {
 		await Address.findByIdAndDelete(mongoose.Types.ObjectId(addr));
-	})
+	});
 	//deleting the vendor
 	vendor = await Vendor.findByIdAndDelete(vendor._id).exec();
 	return vendor;
