@@ -25,9 +25,12 @@ const VendorSchema = Schema({
 
 // hashing password before saving
 VendorSchema.pre("save", function (next) {
-	const salt = generateSalt(16);
-	const hash = generateHash(this.password, salt);
-	this.password = hash.concat("." + salt);
+	const vendor = this;
+	if (vendor.isModified("password")) {
+		const salt = generateSalt(16);
+		const hash = generateHash(vendor.password, salt);
+		this.password = hash.concat("." + salt);
+	}
 	next();
 });
 
