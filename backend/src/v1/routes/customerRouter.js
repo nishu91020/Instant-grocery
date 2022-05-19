@@ -1,8 +1,9 @@
-const express = require("express");
-const cartRouter = require("./cartRouter");
-const customerController = require("../controllers/customerController");
-const authMiddleware = require("../middlewares/auth");
-const getAddressRouter = require("./addressRouter");
+const express = require('express');
+const cartRouter = require('./cartRouter');
+const customerController = require('../controllers/customerController');
+const authMiddleware = require('../middlewares/auth');
+const getAddressRouter = require('./addressRouter');
+const Customer = require('../Models/customer');
 
 const customerRouter = express.Router();
 
@@ -14,18 +15,18 @@ const customerRouter = express.Router();
 // - /:id/orders/:order_id                     GET particular order
 // - /:id/orders/                              POST create new order
 
-customerRouter.post("/register", customerController.register);
-customerRouter.post("/login", customerController.login);
-customerRouter.get("/:id", authMiddleware, customerController.getProfile);
-customerRouter.patch("/:id", customerController.updateProfile); //  update profile
+customerRouter.post('/register', customerController.register);
+customerRouter.post('/login', customerController.login);
+customerRouter.get('/:id', authMiddleware, customerController.getProfile);
+customerRouter.patch('/:id', customerController.updateProfile); //  update profile
 
-customerRouter.use("/cart", cartRouter);
-customerRouter.get("/:id/cart", customerController.getCart);
+customerRouter.use('/cart', cartRouter);
+customerRouter.get('/:id/cart', customerController.getCart);
 
-customerRouter.get("/:id/orders", customerController.getOrders);
-customerRouter.get("/:id/orders/:orderId", customerController.getOrder);
-customerRouter.post("/:id/orders", customerController.createOrder); // new order
+customerRouter.get('/:id/orders', customerController.getOrders);
+customerRouter.get('/:id/orders/:orderId', customerController.getOrder);
+customerRouter.post('/:id/orders', customerController.createOrder); // new order
 
-customerRouter.use("/:customerId/addresses", getAddressRouter(Customer, "customerId"));
+customerRouter.use('/:customerId/addresses', getAddressRouter(Customer, 'customerId'));
 
 module.exports = customerRouter;
