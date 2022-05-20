@@ -13,7 +13,7 @@ exports.addProductToInventory = async (req, res, next) => {
         status: req.body.status
     });
     try {
-        const new_product = product.save();
+        const new_product = await product.save();
         res.send(new_product);
     } catch (err) {
         res.send('error occured');
