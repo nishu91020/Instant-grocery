@@ -21,7 +21,7 @@ vendorRouter.get("/", getVendors);
 vendorRouter.get("/:vendorId", getVendor);
 
 // add a new vendor
-vendorRouter.post("/", addVendor);
+vendorRouter.post("/register", addVendor);
 
 // update profile of a new vendor
 vendorRouter.patch("/:vendorId", updateVendor);
@@ -30,6 +30,6 @@ vendorRouter.patch("/:vendorId", updateVendor);
 // only for development
 vendorRouter.delete("/:vendorId", removeVendor);
 
-vendorRouter.use("/:vendorId/addresses", getAddressRouter(Vendor, "vendorId"));
+vendorRouter.use(getAddressRouter(Vendor, "vendorId"));
 
 module.exports = vendorRouter;

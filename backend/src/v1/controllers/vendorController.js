@@ -7,7 +7,7 @@ const {
 	findVendorById,
 	findVendorByIdAndUpdate,
 } = require("../services/vendorServices");
-const { sendResponse } = require("./utility");
+const { sendResponse, validateRequestBody } = require("./utility");
 
 exports.getVendor = async (req, res, next) => {
 	try {
@@ -32,14 +32,9 @@ exports.getVendor = async (req, res, next) => {
 
 // Add a new Vendor
 exports.addVendor = async (req, res, next) => {
-	const vendorData = {
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
-		email: req.body.email,
-		password: req.body.password,
-	};
-
 	try {
+		const REQUIRED = ["firstName", "lastName", "email", "password"];
+		const vendorData = validateRequestBody(REQUIRED, req.body);
 		const vendor = await addNewVendor(vendorData);
 		res.status(200).json({
 			status: "success",
