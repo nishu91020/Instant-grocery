@@ -10,11 +10,11 @@ const { sendResponse } = require("./utility");
 exports.addAddressToClient = (Client, idParam) => {
 	return async function (req, res, next) {
 		try {
-			const address = await addAddress(req.body.address, Client, req.params[idParam]);
+			const address = await addAddress(req.body.address, Client, req.client._id);
 			res.status(200).json({
 				status: "success",
 				data: {
-					vendorId: req.params[idParam],
+					vendorId: req.client._id,
 					address,
 				},
 			});
@@ -31,15 +31,15 @@ exports.addAddressToClient = (Client, idParam) => {
 	};
 };
 
-exports.getAllClientAddresses = (Client, idParam) => {
+exports.getAllClientAddresses = (Client) => {
 	return async function (req, res, next) {
 		try {
 			console.log(req.params);
-			const addresses = await getAllAddresses(Client, req.params[idParam]);
+			const addresses = await getAllAddresses(Client, req.client._id);
 			res.status(200).json({
 				status: "success",
 				data: {
-					vendorId: req.params[idParam],
+					vendorId: req.client._id,
 					addresses,
 				},
 			});
@@ -58,12 +58,12 @@ exports.getAllClientAddresses = (Client, idParam) => {
 
 // TO-DO
 // check whether client exists or not
-exports.getClientAddress = (Client, idParam) => {
+exports.getClientAddress = (Client) => {
 	return async function (req, res, next) {
 		try {
 			const address = await getAddress(req.params.addressId);
 			sendResponse(res, 200, "success", {
-				vendorId: req.params[idParam],
+				vendorId: req.client._id,
 				address: address,
 			});
 		} catch (err) {
@@ -76,17 +76,17 @@ exports.getClientAddress = (Client, idParam) => {
 	};
 };
 
-exports.updateClientAddress = (Client, idParam) => {
+exports.updateClientAddress = (Client) => {
 	return async function (req, res, next) {
 		try {
 			const address = await updateAddress(
 				req.params.addressId,
 				req.body.address,
 				Client,
-				req.params[idParam],
+				req.client._id,
 			);
 			sendResponse(res, 200, "success", {
-				vendorId: req.params[idParam],
+				vendorId: req.client._id,
 				address: address,
 			});
 		} catch (err) {
@@ -99,13 +99,13 @@ exports.updateClientAddress = (Client, idParam) => {
 	};
 };
 
-exports.deleteClientAddress = (Client, idParam) => {
+exports.deleteClientAddress = (Client) => {
 	return async function (req, res, next) {
 		try {
-			const address = await deleteAddress(req.params.addressId, Client, req.params[idParam]);
+			const address = await deleteAddress(req.params.addressId, Client, req.client._id);
 			sendResponse(res, 200, "success", {
 				message: "successfully deleted",
-				vendorId: req.params[idParam],
+				vendorId: req.client._id,
 				address: address,
 			});
 		} catch (err) {
