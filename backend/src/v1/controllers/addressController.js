@@ -34,6 +34,7 @@ exports.addAddressToClient = (Client, idParam) => {
 exports.getAllClientAddresses = (Client, idParam) => {
 	return async function (req, res, next) {
 		try {
+			console.log(req.params);
 			const addresses = await getAllAddresses(Client, req.params[idParam]);
 			res.status(200).json({
 				status: "success",
