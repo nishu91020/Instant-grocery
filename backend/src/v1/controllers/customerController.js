@@ -10,7 +10,10 @@ exports.register = async (req, res, next) => {
 		const customer = await newCustomer.save();
 		const token = generateToken(customer);
 
-		res.send({ customer, token });
+		sendResponse(res, 200, "success", {
+			customer: customer.displayProfile,
+			token,
+		});
 	} catch (err) {
 		sendResponse(res, 400, "failed", {
 			error: {
@@ -23,7 +26,9 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
 	try {
 		const token = await loginUser(Customer, req.body);
-		res.status(200).send({ token });
+		sendResponse(res, 200, "success", {
+			token,
+		});
 	} catch (e) {
 		res.status(400).send(e.message);
 	}

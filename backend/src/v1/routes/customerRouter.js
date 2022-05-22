@@ -18,6 +18,7 @@ const customerRouter = express.Router();
 
 customerRouter.post("/register", customerController.register);
 customerRouter.post("/login", customerController.login);
+
 customerRouter.get("/:id", getAuthMiddleware(Customer), customerController.getProfile);
 customerRouter.patch("/:id", getAuthMiddleware(Customer), customerController.updateProfile); //  update profile
 
