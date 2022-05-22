@@ -31,6 +31,15 @@ const CustomerSchema = new Schema({
 	],
 });
 
+CustomerSchema.virtual("displayProfile").get(function () {
+	const customer = this;
+	return {
+		firstName: customer.firstName,
+		lastName: customer.lastName,
+		email: customer.email,
+	};
+});
+
 //creating token
 
 CustomerSchema.pre("save", async function (next) {
