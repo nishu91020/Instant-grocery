@@ -1,18 +1,21 @@
-const jwt = require('jsonwebtoken');
-const Customer = require('../Models/customer');
+const jwt = require("jsonwebtoken");
+const { sendResponse } = require("../controllers/utility");
 
-const authMiddleware = async (req, res, next) => {
-    try {
-        token = req.header('Authorization').replace('Bearer ', '');
-        decoded = jwt.verify(token, 'mysecret');
-        const customer = Customer.findOne({ _id: decoded._id, 'tokens.token': token });
-        if (!customer) {
-            throw new Error('you are not authenticated to access this route, please authenticate!');
-        }
-        req.customer = customer;
-        next();
-    } catch (e) {
-        res.status(401).send('unauthorized!!');
-    }
+exports.getAuthMiddleware = (Client) => async (req, res, next) => {
+	try {
+		token = req.header("Authorization").replace("Bearer ", "");
+		decoded = jwt.verify(token, "mysecret");
+		const client = await Client.findOne({ _id: decoded._id, "tokens.token": token });
+		if (!client) {
+			throw new Error("you are not authenticated to access this route, please authenticate!");
+		}
+		req.client = client;
+		next();
+	} catch (e) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: e.message,
+			},
+		});
+	}
 };
-module.exports = authMiddleware;

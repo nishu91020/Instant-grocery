@@ -17,7 +17,10 @@ exports.loginUser = async (Client, clientDetails) => {
 
 exports.generateToken = (client) => {
 	const token = jwt.sign({ _id: client._id.toString() }, "mysecret", { expiresIn: "2 days" });
-	client.tokens = client.tokens.concat({ token });
+	client.tokens = client.tokens.concat({
+		token: token,
+		deleteAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+	});
 	client.save();
 	return token;
 };

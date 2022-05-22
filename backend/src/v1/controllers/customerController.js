@@ -1,5 +1,5 @@
 const Customer = require("../Models/customer");
-const { loginUser } = require("../services/authServices");
+const { loginUser, generateToken } = require("../services/authServices");
 const { sendResponse, validateRequestBody } = require("./utility");
 
 exports.register = async (req, res, next) => {
@@ -8,7 +8,7 @@ exports.register = async (req, res, next) => {
 		const customerDetails = validateRequestBody(REQUIRED, req.body);
 		const newCustomer = new Customer(customerDetails);
 		const customer = await newCustomer.save();
-		const token = customer.generateToken();
+		const token = generateToken(customer);
 
 		res.send({ customer, token });
 	} catch (err) {
@@ -30,7 +30,7 @@ exports.login = async (req, res, next) => {
 };
 exports.getProfile = async (req, res, next) => {
 	try {
-		const customer = await Customer.findById(req.params.id);
+		const customer = await Customer.findById(req.client._id);
 		res.status(200).send(customer);
 	} catch (err) {
 		res.status(400).send("error occured!!");
@@ -45,7 +45,7 @@ exports.getCart = (req, res, next) => {
 exports.updateProfile = async (req, res, next) => {
 	const updates = Object.keys(req.body);
 	try {
-		const customer = await Customer.findById(req.params.id);
+		const customer = await Customer.findById(req.client._id);
 		updates.forEach((update) => {
 			customer[update] = req.body[update];
 		});

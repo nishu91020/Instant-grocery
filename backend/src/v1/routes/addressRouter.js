@@ -7,28 +7,26 @@ const {
 	deleteClientAddress,
 } = require("../controllers/addressController");
 
-function getAddressRouter(Client, route, idParam) {
+function getAddressRouter(Client) {
 	const addressRouter = express.Router();
-	const clientId = idParam;
-	console.log(idParam);
 
-	const baseRoute = `/:${idParam}/addresses`;
+	const baseRoute = `/addresses`;
 	// Route to get list of all the Client addresses
 	// requires authentication
-	addressRouter.get(`${baseRoute}/`, getAllClientAddresses(Client, idParam));
+	addressRouter.get(`/`, getAllClientAddresses(Client));
 
 	// Route to get a particular address of a client
 	// requires authentication
-	addressRouter.get(`${baseRoute}/:addressId`, getClientAddress(Client, idParam));
+	addressRouter.get(`/:addressId`, getClientAddress(Client));
 
 	// Route to add a new address to a client
-	addressRouter.post(`${baseRoute}/`, addAddressToClient(Client, idParam));
+	addressRouter.post(`/`, addAddressToClient(Client));
 
 	// Route to update address of a client
-	addressRouter.patch(`${baseRoute}/:addressId`, updateClientAddress(Client, idParam));
+	addressRouter.patch(`/:addressId`, updateClientAddress(Client));
 
 	//Route to delete address of a client
-	addressRouter.delete(`${baseRoute}/:addressId`, deleteClientAddress(Client, idParam));
+	addressRouter.delete(`/:addressId`, deleteClientAddress(Client));
 
 	return addressRouter;
 }
