@@ -1,8 +1,13 @@
-const { addAddress, getAllAddresses, getAddress, updateAddress, deleteAddress } = require('../services/addressServices');
-const { sendResponse } = require('./utility');
+const {
+	addAddress,
+	getAllAddresses,
+	getAddress,
+	updateAddress,
+	deleteAddress,
+} = require("../services/addressServices");
+const { sendResponse } = require("./utility");
 
-exports.addAddressToClient = (Client, idParam) => {
-
+exports.addAddressToClient = (Client) => {
 	return async function (req, res, next) {
 		try {
 			const address = await addAddress(req.body.address, Client, req.client._id);

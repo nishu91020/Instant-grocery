@@ -13,7 +13,6 @@ const { sendResponse, validateRequestBody } = require("./utility");
 // TO-DO
 // add authentication to vendors
 // change req.params.id to req.client._id
-
 exports.loginVendor = async (req, res, next) => {
 	try {
 		const vendorDetails = { email: req.body.email, password: req.body.password };
@@ -55,6 +54,25 @@ exports.getVendor = async (req, res, next) => {
 	}
 };
 
+// get profile of a signed-in vendor
+exports.getProfile = async (req, res, next) => {
+	try {
+		const vendor = await findVendorById(req.client._id);
+		if (!vendor) {
+			throw new Error("invalid client");
+		}
+
+		sendResponse(res, 200, "success", {
+			vendor: vendor.displayProfile,
+		});
+	} catch (err) {
+		console.log(err);
+		sendResponse(res, 400, "failed", {
+			error: err.message,
+		});
+	}
+};
+
 // Add a new Vendor
 exports.addVendor = async (req, res, next) => {
 	try {
@@ -85,7 +103,7 @@ exports.addVendor = async (req, res, next) => {
 // only for development
 exports.removeVendor = async (req, res, next) => {
 	try {
-		const vendor = await removeVendorById(req.params.vendorId);
+		const vendor = await removeVendorById(req.client._id);
 		res.status(200).json({
 			status: "success",
 			data: {
@@ -129,7 +147,7 @@ exports.getVendors = async (req, res, next) => {
 exports.updateVendor = async (req, res, next) => {
 	try {
 		// find the particular vendor;
-		const vendor = await findVendorByIdAndUpdate(req.params.vendorId, req.body);
+		const vendor = await findVendorByIdAndUpdate(req.client._id, req.body);
 		res.status(200).json({
 			status: "success",
 			data: {

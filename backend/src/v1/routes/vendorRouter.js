@@ -6,6 +6,7 @@ const {
 	getVendor,
 	updateVendor,
 	loginVendor,
+	getProfile,
 } = require("../controllers/vendorController");
 const { getAuthMiddleware } = require("../middlewares/auth");
 const Vendor = require("../Models/vendor");
@@ -23,14 +24,17 @@ vendorRouter.use("/products", getAuthMiddleware(Vendor), productRouter);
 // get a list of vendors
 vendorRouter.get("/", getAuthMiddleware(Vendor), getVendors);
 
-// get profile of a particular vendor
-vendorRouter.get("/:vendorId", getAuthMiddleware(Vendor), getVendor);
+// get public profile of a particular vendor
+vendorRouter.get("/public/:vendorId", getAuthMiddleware(Vendor), getVendor);
+
+// get profile of a logged in vendor
+vendorRouter.get("/auth/profile", getAuthMiddleware(Vendor), getProfile);
 
 // update profile of a new vendor
-vendorRouter.patch("/:vendorId", getAuthMiddleware(Vendor), updateVendor);
+vendorRouter.patch("/auth/update", getAuthMiddleware(Vendor), updateVendor);
 
 // delete a vendor account
-vendorRouter.delete("/:vendorId", getAuthMiddleware(Vendor), removeVendor);
+vendorRouter.delete("/", getAuthMiddleware(Vendor), removeVendor);
 
 vendorRouter.use(getAuthMiddleware(Vendor), getAddressRouter(Vendor));
 
