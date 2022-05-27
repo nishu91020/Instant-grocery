@@ -1,4 +1,6 @@
 const Product = require('../Models/product');
+const { addProduct, deleteProduct, updateProduct } = require('../services/productServices');
+const { sendResponse } = require('./utility');
 
 exports.addProductToInventory = async (req, res, next) => {
     const product = new Product({
@@ -13,23 +15,21 @@ exports.addProductToInventory = async (req, res, next) => {
         status: req.body.status
     });
     try {
-        const new_product = await product.save();
-        res.send(new_product);
+        const new_product = await addProduct(product, req.vendorId);
+        sendResponse(res, 200, 'success', new_product);
     } catch (err) {
-        res.send('error occured');
+        sendResponse(res, 400, 'failed', err.message);
     }
 };
 exports.deleteProductFromInventory = async (req, res, next) => {
     try {
-        const product = await Product.findById(req.params.id);
-        product.deleteOne().then(() => {
-            res.status(201).send(`product ${req.params.id} deleted`);
-        });
+        const product = await deleteProduct(req.id);
+        sendResponse(res, 200, 'success', `product ${product} deleted`);
     } catch (err) {
-        res.send('error occured!');
+        sendResponse(res, 400, 'failed', err.message);
     }
 };
-exports.modifyProductInInventory = async (req, res, next) => {
+exports.updateProductInInventory = async (req, res, next) => {
     const product = new Product({
         name: req.body.name,
         img: req.body.img,
@@ -43,11 +43,9 @@ exports.modifyProductInInventory = async (req, res, next) => {
         _id: req.params.id
     });
     try {
-        Product.findByIdAndUpdate(req.params.id, product, {}, (err, modifiedProduct) => {
-            if (err) next(err);
-            res.send(modifiedProduct);
-        });
+        const modifiedProduct = await updateProduct(req.params.id, product);
+        sendResponse(res, 200, 'success', modifiedProduct);
     } catch (err) {
-        res.send('error occured !!');
+        sendResponse(res, 400, 'failed', err.message);
     }
 };
