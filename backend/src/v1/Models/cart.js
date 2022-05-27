@@ -8,7 +8,7 @@ const CartSchema = Schema({
         ref: 'Customer',
         required: true
     },
-    Items: [ { type: mongoose.SchemaTypes.ObjectId, ref: 'Product', required: true } ]
+    products: [ { type: mongoose.SchemaTypes.ObjectId, ref: 'Product', required: true } ]
 });
 
 const Cart = mongoose.Model('Cart', CartSchema);
