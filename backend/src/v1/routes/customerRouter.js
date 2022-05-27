@@ -23,13 +23,12 @@ customerRouter.get('/auth/profile', getAuthMiddleware(Customer), customerControl
 customerRouter.patch('/auth/update', getAuthMiddleware(Customer), customerController.updateProfile); //  update profile
 
 customerRouter.use('/auth/cart', getAuthMiddleware(Customer), cartRouter);
-customerRouter.get('/auth/cart', getAuthMiddleware(Customer), customerController.getCart); //doubtful
+customerRouter.get('/auth/cart', getAuthMiddleware(Customer), customerController.getCart);
 
-customerRouter.get('/auth/orders', getAuthMiddleware(Customer), customerController.getOrders); //doubtful
+customerRouter.get('/auth/orders', getAuthMiddleware(Customer), customerController.getOrders); //not working
 customerRouter.get('/auth/orders/:orderId', getAuthMiddleware(Customer), customerController.getOrder); //not checked
-//----------------------------------------------------------------------------------------------------
-customerRouter.post('/auth/orders', getAuthMiddleware(Customer), customerController.createOrder); // new order
+customerRouter.post('/auth/orders', getAuthMiddleware(Customer), customerController.createOrder); // not working
 
-customerRouter.use('/addresses', getAuthMiddleware(Customer), getAddressRouter(Customer));
+customerRouter.use('/auth/addresses', getAuthMiddleware(Customer), getAddressRouter(Customer));
 
 module.exports = customerRouter;
