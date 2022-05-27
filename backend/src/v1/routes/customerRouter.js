@@ -19,19 +19,19 @@ const customerRouter = express.Router();
 customerRouter.post("/register", customerController.register);
 customerRouter.post("/login", customerController.login);
 
-customerRouter.get("/:id", getAuthMiddleware(Customer), customerController.getProfile);
-customerRouter.patch("/:id", getAuthMiddleware(Customer), customerController.updateProfile); //  update profile
+customerRouter.get("/auth/profile", getAuthMiddleware(Customer), customerController.getProfile);
+customerRouter.patch("/auth/update", getAuthMiddleware(Customer), customerController.updateProfile); //  update profile
 
-customerRouter.use("/cart", getAuthMiddleware(Customer), cartRouter);
-customerRouter.get("/:id/cart", getAuthMiddleware(Customer), customerController.getCart);
+customerRouter.use("/auth/cart", getAuthMiddleware(Customer), cartRouter);
+customerRouter.get("/auth/cart", getAuthMiddleware(Customer), customerController.getCart);
 
 customerRouter.get("/:id/orders", getAuthMiddleware(Customer), customerController.getOrders);
 customerRouter.get(
-	"/:id/orders/:orderId",
+	"/auth/orders/:orderId",
 	getAuthMiddleware(Customer),
 	customerController.getOrder,
 );
-customerRouter.post("/:id/orders", getAuthMiddleware(Customer), customerController.createOrder); // new order
+customerRouter.post("/auth/orders", getAuthMiddleware(Customer), customerController.createOrder); // new order
 
 customerRouter.use("/addresses", getAuthMiddleware(Customer), getAddressRouter(Customer));
 
