@@ -65,12 +65,13 @@ exports.addOrder = async (orderDetails, customer) => {
 	}
 
 	validOrderDetails["address"] = address;
-
 	await customer.populate("cart");
+	await customer.populate("cart.product");
 	const cart = customer.cart;
 	// calculate total cost of each product
 	const totalCost = cart.reduce((sum, cur) => {
-		return sum + cur.price;
+		console.log(cur);
+		return sum + cur.product.price * cur.quantity;
 	}, 0);
 
 	if (totalCost == 0) {

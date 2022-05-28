@@ -1,4 +1,9 @@
-const { addProductToCart, removeProductFromCart, getCart } = require("../services/cartServices");
+const {
+	addProductToCart,
+	removeProductFromCart,
+	getCart,
+	updateCart,
+} = require("../services/cartServices");
 const { sendResponse } = require("./utility");
 
 exports.getCustomerCart = async (req, res, next) => {
@@ -31,5 +36,21 @@ exports.removeFromCart = async (req, res) => {
 		sendResponse(res, 200, "success", customer);
 	} catch (e) {
 		sendResponse(res, 400, "failed", e.message);
+	}
+};
+
+exports.updateCustomerCart = async (req, res, next) => {
+	try {
+		const customer = req.client;
+		const updatedCart = await updateCart(req.body, customer);
+		sendResponse(res, 200, "success", {
+			cart: updatedCart,
+		});
+	} catch (err) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: err.message,
+			},
+		});
 	}
 };
