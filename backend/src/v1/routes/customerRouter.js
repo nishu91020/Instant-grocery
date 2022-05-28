@@ -5,6 +5,7 @@ const customerController = require("../controllers/customerController");
 const getAddressRouter = require("./addressRouter");
 const Customer = require("../Models/customer");
 const { getAuthMiddleware } = require("../middlewares/auth");
+const orderRouter = require("./orderRouter");
 
 const customerRouter = express.Router();
 
@@ -23,6 +24,8 @@ customerRouter.get("/auth/profile", getAuthMiddleware(Customer), customerControl
 customerRouter.patch("/auth/update", getAuthMiddleware(Customer), customerController.updateProfile); //  update profile
 
 customerRouter.use("/auth/cart", getAuthMiddleware(Customer), cartRouter);
+
+customerRouter.use("/auth/orders", getAuthMiddleware(Customer), orderRouter);
 
 customerRouter.use("/auth/addresses", getAuthMiddleware(Customer), getAddressRouter(Customer));
 

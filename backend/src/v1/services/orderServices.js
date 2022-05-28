@@ -1,36 +1,7 @@
 const mongoose = require("mongoose");
-const Order = requier("../Models/orders");
+const { Address } = require("../Models/address");
+const Order = require("../Models/orders");
 const Customer = require("../Models/customer");
-
-const addOrder = async (order, customerId) => {
-	const customer = await Customer.findById(customerId).exec();
-	if (!customer) {
-		throw new Error("Customer does not exist !!");
-	}
-	const new_order = new Order(order);
-	await new_order.save();
-	return new_order;
-};
-
-const deleteOrder = async (orderId, customerId) => {
-	const customer = await Customer.findById(customerId);
-	if (!customer) {
-		throw new Error("Customer Invalid");
-	}
-	const isPresent = customer.orders.includes(orderId);
-	if (isPresent) {
-		const order = await Order.findByIdAndDelete(orderId);
-		if (!order) {
-			throw new Error("Invalid Order!");
-		}
-		customer.orders = customer.orders.filter((id) => id !== orderId);
-		await customer.save();
-		return order;
-	} else {
-		throw new Error("Invalid Order!");
-	}
-};
-UpdateOrder = async (orderId, CustomerId) => {};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +12,7 @@ UpdateOrder = async (orderId, CustomerId) => {};
  */
 
 exports.getOrders = async (customer) => {
-	await customer.populate("orders").exec();
+	await customer.populate("orders");
 	return customer.orders;
 };
 
@@ -87,15 +58,28 @@ exports.addOrder = async (orderDetails, customer) => {
 		}
 	});
 
-	await customer.populate("cart").exec();
+	// check whether address exists or not
+	const address = await Address.findById(validOrderDetails.address.id);
+	if (!address || !customer.address.includes(address._id)) {
+		throw new Error("Invalid address");
+	}
+
+	validOrderDetails["address"] = address;
+
+	await customer.populate("cart");
 	const cart = customer.cart;
+	// calculate total cost of each product
 	const totalCost = cart.reduce((sum, cur) => {
 		return sum + cur.price;
 	}, 0);
 
+	if (totalCost == 0) {
+		throw new Error("cart is empty");
+	}
+
 	validOrderDetails.totalCost = totalCost;
 	validOrderDetails.status = "Confirmed";
-	validOrderDetails.products = cart.products;
+	validOrderDetails.products = cart;
 	validOrderDetails.user = customer._id;
 
 	const order = new Order(validOrderDetails);
@@ -103,6 +87,7 @@ exports.addOrder = async (orderDetails, customer) => {
 	await order.save();
 
 	customer.orders.push(order);
+	customer.cart = [];
 	await customer.save();
 
 	return order;

@@ -1,22 +1,13 @@
 const express = require("express");
+const { createOrder, getAllOrders, getOrder } = require("../controllers/orderController");
 const { sendResponse } = require("../controllers/utility");
 
 const orderRouter = express.Router();
 
-orderRouter.get("/", (req, res, next) => {
-	sendResponse(res, 200, "success", {
-		message: "order confirmed",
-	});
-});
+orderRouter.get("/", getAllOrders);
 
-orderRouter.get("/:oid", (req, res, next) => {
-	sendResponse(res, 200, "success", {
-		message: "order aa gya",
-	});
-});
+orderRouter.get("/:oid", getOrder);
 
-orderRouter.post("/", (req, res, next) => {
-	sendResponse(res, 200, "success", {
-		message: "order gya",
-	});
-});
+orderRouter.post("/", createOrder);
+
+module.exports = orderRouter;
