@@ -26,7 +26,7 @@ customerRouter.use('/auth/cart', getAuthMiddleware(Customer), cartRouter);
 customerRouter.get('/auth/cart', getAuthMiddleware(Customer), customerController.getCart);
 
 customerRouter.get('/auth/orders', getAuthMiddleware(Customer), customerController.getOrders); //not working
-customerRouter.get('/auth/orders/:orderId', getAuthMiddleware(Customer), customerController.getOrder); //not checked
+customerRouter.get('/auth/orders/:orderId', getAuthMiddleware(Customer), customerController.getOrder); //not working
 customerRouter.post('/auth/orders', getAuthMiddleware(Customer), customerController.createOrder); // not working
 
 customerRouter.use('/auth/addresses', getAuthMiddleware(Customer), getAddressRouter(Customer));

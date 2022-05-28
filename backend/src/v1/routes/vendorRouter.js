@@ -11,7 +11,7 @@ vendorRouter.post('/register', addVendor);
 vendorRouter.post('/login', loginVendor);
 
 // attaching product router--
-vendorRouter.use('/products', getAuthMiddleware(Vendor), productRouter);
+vendorRouter.use('/auth/products', getAuthMiddleware(Vendor), productRouter);
 
 // get a list of vendors
 vendorRouter.get('/', getAuthMiddleware(Vendor), getVendors);
