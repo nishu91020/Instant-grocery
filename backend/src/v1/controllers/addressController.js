@@ -11,7 +11,7 @@ const { sendResponse } = require("./utility");
 exports.addAddressToClient = (Client) => {
 	return async function (req, res, next) {
 		try {
-			const addressObject = new Address({
+			const addressObject = {
 				street: req.body.street,
 				landmark: req.body.landmark,
 				locality: req.body.locality,
@@ -19,7 +19,7 @@ exports.addAddressToClient = (Client) => {
 				city: req.body.city,
 				pincode: req.body.pincode,
 				contactNumber: req.body.contactNumber,
-			});
+			};
 			const address = await addAddress(addressObject, Client, req.client._id);
 			res.status(200).json({
 				status: "success",
