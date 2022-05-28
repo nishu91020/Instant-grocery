@@ -8,7 +8,10 @@ exports.addProductToCart = async (customerId, productId) => {
 		throw new Error("Customer not found!");
 	}
 	const product = await Product.findById(productId);
-	await user.cart.push(product);
+	await user.cart.push({
+		product: product,
+		quantity: 1,
+	});
 	await user.save();
 	return user;
 };
@@ -33,6 +36,47 @@ exports.removeProductFromCart = async (customerId, productId) => {
 };
 
 exports.getCart = async (customer) => {
+	await customer.populate("cart.product");
+	return customer.cart;
+};
+
+const details = [
+	{
+		product: "productId",
+		quantity: 10,
+	},
+];
+
+exports.updateCart = async (updatedCartDetails, customer) => {
+	const UPDATES = ["product", "quantity"];
+	const details = {};
+
+	updatedCartDetails.forEach((update) => {
+		const newUpdate = {};
+		Object.keys(update).forEach((key) => {
+			if (UPDATES.includes(key)) {
+				newUpdate[key] = update[key];
+			} else {
+				throw new Error(`invalid ${key} update in cart`);
+			}
+		});
+
+		details[newUpdate.product] = newUpdate;
+	});
+
+	// console.log(details);
+
+	customer.cart = customer.cart.map((item) => {
+		const key = item.product.toString();
+		if (details[key]) {
+			item = details[key];
+		}
+		console.log(item);
+		return item;
+	});
+
+	await customer.save();
+
 	await customer.populate("cart");
 	return customer.cart;
 };

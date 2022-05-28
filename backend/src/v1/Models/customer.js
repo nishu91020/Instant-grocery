@@ -20,7 +20,16 @@ const CustomerSchema = new Schema({
 		},
 	],
 
-	cart: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Product" }],
+	cart: [
+		{
+			product: {
+				type: mongoose.SchemaTypes.ObjectId,
+				ref: "Product",
+				required: true,
+			},
+			quantity: Number,
+		},
+	],
 
 	tokens: [
 		{
