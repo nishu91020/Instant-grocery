@@ -1,43 +1,46 @@
 const Product = require('../Models/product');
+const Review = require('../Models/review');
 
-exports.addReview = async (productId,reviewDetails) => {
-        const product=await Product.findById(productId).exec();
-        if(!product)
-        {
-            return new Error('invalid product');
-        }
-        
-        const review = await reviewDetails.save();
-        product.reviews.push(review);
-        return review;
-    
-};
-
-exports.deleteReview = async (reviewId,productId,Review) => {
-        reviewId= this.removeReviewFromProduct(reviewId, productId);
-        await Review.findByIdAndDelete(reviewId).exec();
-        
-    
+exports.addReview = async (productId, reviewDetails, customer) => {
+    const product = await Product.findById(productId).exec();
+    if (!product) {
+        return new Error('invalid product');
+    }
+    const newReview = new Review({
+        description: reviewDetails.description,
+        customer: customer,
+        rating: reviewDetails.rating
+    });
+    await newReview.save();
+    product.reviews.push(newReview);
+    await product.save();
+    return product;
 };
 
-exports.getAllReviews = async (productId) => {
-        const reviews = await Product.findById(productId).populate('reviews');
-        return reviews; 
+exports.deleteReview = async (reviewId, productId) => {
+    const review = await Review.findByIdAndDelete(reviewId);
+    reviewId = this.removeReviewFromProduct(reviewId, productId);
+    return review;
 };
-exports.getReview = async(reviewId,Review) => {
-    const review=await Review.findById(reviewId);
-    return review;  
+
+exports.getAllReviews = async productId => {
+    const reviews = await Product.findById(productId).populate('reviews');
+    return reviews;
 };
-exports.removeReviewFromProduct = (reviewId,productId) => {
-    const product=await Product.findById(productId);
-    if(!product){
+exports.getReview = async reviewId => {
+    const review = await Review.findById(reviewId);
+    return review;
+};
+exports.removeReviewFromProduct = async (reviewId, productId) => {
+    const product = await Product.findById(productId);
+    if (!product) {
         throw new Error('invalid product review!');
     }
-    if(product.reviews.includes(reviewId)){
-        product.reviews=product.reviews.filter(rev=>rev != reviewId);
+    if (product.reviews.includes(reviewId)) {
+        product.reviews = product.reviews.filter(rev => rev != reviewId);
+        await product.save();
     }
-    else
-    {
+    else {
         throw new Error('invalid review for product');
     }
     return reviewId;
