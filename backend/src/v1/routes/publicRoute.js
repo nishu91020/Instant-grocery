@@ -1,17 +1,13 @@
 const express = require("express");
+const { getProducts, getProduct } = require("../controllers/publicRouterController");
 const { sendResponse } = require("../controllers/utility");
 const publicRouter = express.Router();
 const Product = require("../Models/product");
 const reviewRouter = require("./reviewRouter");
 
-publicRouter.get("/", async (req, res, next) => {
-	try {
-		const productsInInventory = await Product.find({});
-		sendResponse(res, 200, "success", productsInInventory);
-	} catch (err) {
-		sendResponse(res, 400, "failed", err.message);
-	}
-});
+publicRouter.get("/", getProducts);
+
+publicRouter.get("/:productId", getProduct);
 
 publicRouter.use("/reviews", reviewRouter);
 
