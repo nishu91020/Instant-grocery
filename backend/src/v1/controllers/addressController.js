@@ -24,7 +24,7 @@ exports.addAddressToClient = (Client) => {
 			res.status(200).json({
 				status: "success",
 				data: {
-					vendorId: req.client._id,
+					clientId: req.client._id,
 					address,
 				},
 			});
@@ -49,7 +49,8 @@ exports.getAllClientAddresses = (Client) => {
 			res.status(200).json({
 				status: "success",
 				data: {
-					vendorId: req.client._id,
+					clientId: req.client._id,
+					length: addresses.length,
 					addresses,
 				},
 			});
@@ -74,7 +75,7 @@ exports.getClientAddress = (Client) => {
 		try {
 			const address = await getAddress(req.params.addressId);
 			sendResponse(res, 200, "success", {
-				vendorId: req.client._id,
+				clientId: req.client._id,
 				address: address,
 			});
 		} catch (err) {
@@ -92,7 +93,7 @@ exports.updateClientAddress = (Client) => {
 		try {
 			const address = await updateAddress(req.params.addressId, req.body, Client, req.client._id);
 			sendResponse(res, 200, "success", {
-				vendorId: req.client._id,
+				clientId: req.client._id,
 				address: address,
 			});
 		} catch (err) {
@@ -111,7 +112,7 @@ exports.deleteClientAddress = (Client) => {
 			const address = await deleteAddress(req.params.addressId, Client, req.client._id);
 			sendResponse(res, 200, "success", {
 				message: "successfully deleted",
-				vendorId: req.client._id,
+				clientId: req.client._id,
 				address: address,
 			});
 		} catch (err) {
