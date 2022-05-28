@@ -13,7 +13,7 @@ exports.addProductToCart = async (customerId, productId) => {
 		quantity: 1,
 	});
 	await user.save();
-	return user;
+	return user.cart;
 };
 
 // remove from cart not working properly
@@ -32,7 +32,7 @@ exports.removeProductFromCart = async (customerId, productId) => {
 	const modified_cart = await user.cart.filter((pr) => pr !== product._id);
 	user.cart = modified_cart;
 	await user.save();
-	return user;
+	return user.cart;
 };
 
 exports.getCart = async (customer) => {
