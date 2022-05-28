@@ -3,6 +3,8 @@ const Vendor = require('../Models/vendor');
 const { addProduct, deleteProduct, updateProduct } = require('../services/productServices');
 const { sendResponse } = require('./utility');
 
+// add products with modifiable fields
+
 exports.addProductToInventory = async (req, res, next) => {
     const product = new Product({
         name: req.body.name,
@@ -30,6 +32,9 @@ exports.deleteProductFromInventory = async (req, res, next) => {
         sendResponse(res, 400, 'failed', err.message);
     }
 };
+
+//update products with modifiable fields
+
 exports.updateProductInInventory = async (req, res, next) => {
     const product = new Product({
         name: req.body.name,
@@ -52,8 +57,8 @@ exports.updateProductInInventory = async (req, res, next) => {
 };
 exports.getAllProducts = async (req, res, next) => {
     try {
-        const vendor = await Vendor.findById(req.client._id);
-        sendResponse(res, 200, 'success', vendor.products);
+        const products = await Vendor.findById(req.client._id).populate('products');
+        sendResponse(res, 200, 'success', products);
     } catch (e) {
         sendResponse(res, 404, 'failed', e.message);
     }
