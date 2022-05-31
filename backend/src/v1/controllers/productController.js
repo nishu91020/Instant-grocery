@@ -14,7 +14,7 @@ exports.addProductToInventory = async (req, res, next) => {
 };
 exports.deleteProductFromInventory = async (req, res, next) => {
 	try {
-		const product = await deleteProduct(req.params.id, req.client);
+		const product = await deleteProduct(req.params.productId, req.client);
 		sendResponse(res, 200, "success", {
 			product,
 		});
@@ -27,7 +27,7 @@ exports.deleteProductFromInventory = async (req, res, next) => {
 
 exports.updateProductInInventory = async (req, res, next) => {
 	try {
-		const modifiedProduct = await updateProduct(req.params.id, req.body, req.client);
+		const modifiedProduct = await updateProduct(req.params.productId, req.body, req.client);
 		sendResponse(res, 200, "success", modifiedProduct);
 	} catch (err) {
 		sendResponse(res, 400, "failed", err.message);
@@ -39,5 +39,22 @@ exports.getAllProducts = async (req, res, next) => {
 		sendResponse(res, 200, "success", products);
 	} catch (e) {
 		sendResponse(res, 404, "failed", e.message);
+	}
+};
+
+exports.getProduct = async (req, res, next) => {
+	try {
+		const vendor = req.client;
+		const product = await getProductById(req.params.productId, vendor);
+		sendResponse(res, 200, "success", {
+			vendorId: vendor._id,
+			product,
+		});
+	} catch (err) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: err.message,
+			},
+		});
 	}
 };
