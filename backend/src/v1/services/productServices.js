@@ -69,3 +69,21 @@ exports.getProductById = async (productId, vendor) => {
 
 	return product;
 };
+
+exports.saveProductImages = async (product, files) => {
+	const urls = files.map((file) => {
+		return {
+			url: file.location,
+			contentType: file.mimetype,
+		};
+	});
+
+	product.images = urls;
+	await product.save();
+
+	return urls;
+};
+
+exports.getProductImages = (product) => {
+	return product.images;
+};
