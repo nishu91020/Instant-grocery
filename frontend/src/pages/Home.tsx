@@ -1,11 +1,11 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-const Signup = () => {
+const Home = () => {
     return (
         <div>
-            <Typography>Signup</Typography>{' '}
+            <Typography>Home is here</Typography>
         </div>
     );
 };
 
-export default Signup;
+export default Home;

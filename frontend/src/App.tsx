@@ -1,7 +1,12 @@
 import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+
 import { ThemeProvider, styled } from '@mui/material/styles';
 import Theme from './Themes';
 import { Typography } from '@mui/material';
+import Home from './pages/Home';
+import Signup from './pages/Signup';
+import Signin from './pages/Signin';
 
 const CustomParagraph = styled(Typography)(({ theme }) => ({
     color: theme.palette.primary.dark,
@@ -15,9 +20,11 @@ const CustomParagraph = styled(Typography)(({ theme }) => ({
 function App () {
     return (
         <ThemeProvider theme={Theme}>
-            <CustomParagraph>
-                <h1>Hello World</h1>
-            </CustomParagraph>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/signin" element={<Signin />} />
+            </Routes>
         </ThemeProvider>
     );
 }
