@@ -7,6 +7,7 @@ import { Typography } from '@mui/material';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
+import Header from './components/Header';
 
 const CustomParagraph = styled(Typography)(({ theme }) => ({
     color: theme.palette.primary.dark,
@@ -20,6 +21,7 @@ const CustomParagraph = styled(Typography)(({ theme }) => ({
 function App () {
     return (
         <ThemeProvider theme={Theme}>
+            <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/signup" element={<Signup />} />
