@@ -8,7 +8,7 @@ exports.getMulter = () => {
 	return multer({
 		storage: multerS3({
 			s3: s3,
-			bucket: "aws-s3-instant-grocery",
+			bucket: "instant-grocer",
 			metadata: (req, file, cb) => {
 				cb(null, { fieldName: file.fieldname });
 			},

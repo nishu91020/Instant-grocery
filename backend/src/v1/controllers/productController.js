@@ -1,5 +1,11 @@
 const Vendor = require("../Models/vendor");
-const { addProduct, deleteProduct, updateProduct } = require("../services/productServices");
+const {
+	addProduct,
+	deleteProduct,
+	updateProduct,
+	saveProductImages,
+	getProductImages,
+} = require("../services/productServices");
 const { sendResponse } = require("./utility");
 
 // add products with modifiable fields
@@ -20,6 +26,40 @@ exports.deleteProductFromInventory = async (req, res, next) => {
 		});
 	} catch (err) {
 		sendResponse(res, 400, "failed", err.message);
+	}
+};
+
+exports.uploadImages = async (req, res, next) => {
+	try {
+		const urls = await saveProductImages(req.product, req.files);
+		sendResponse(res, 200, "success", {
+			vendorId: req.client._id,
+			productId: req.product._id,
+			imageUrls: urls,
+		});
+	} catch (err) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: err.message,
+			},
+		});
+	}
+};
+
+exports.getImages = async (req, res, next) => {
+	try {
+		const urls = getProductImages(req.product);
+		sendResponse(res, 200, "success", {
+			vendorId: req.client._id,
+			productId: req.product._id,
+			imageUrls: urls,
+		});
+	} catch (err) {
+		sendResponse(res, 400, "failed", {
+			error: {
+				message: err.message,
+			},
+		});
 	}
 };
 
