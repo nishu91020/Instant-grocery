@@ -16,8 +16,8 @@ const ImageGrid = styled(Grid)(({ theme }) => ({
 
 const ImageBox = styled(Box)(({ theme }) => ({
 	borderRadius: "50%",
-	height: "100%",
-	width: "1200px",
+	height: "90vh",
+	width: "90vw",
 	backgroundImage: "url(/img/hero.jpg)",
 	backgroundPosition: "center",
 	backgroundSize: "cover",
