@@ -16,7 +16,7 @@ const ImageGrid = styled(Grid)(({ theme }) => ({
 
 const ImageBox = styled(Box)(({ theme }) => ({
 	borderRadius: "50%",
-	height: "900px",
+	height: "100%",
 	width: "1200px",
 	backgroundImage: "url(/img/hero.jpg)",
 	backgroundPosition: "center",
@@ -31,11 +31,11 @@ export const HomeLayout = ({ children }: HomeLayoutProps) => {
 	const matches = useMediaQuery(theme.breakpoints.up("md"));
 	return (
 		<Grid container spacing={2} sx={{ height: "95%" }}>
-			<Grid container item xs={12} md={5} alignItems="center" justifyContent={"center"}>
+			<Grid container item xs={12} md={6} alignItems="center" justifyContent={"center"}>
 				{children}
 			</Grid>
 			{matches && (
-				<ImageGrid item xs={7} alignItems="center" justifyContent={"center"}>
+				<ImageGrid item xs={6} alignItems="center" justifyContent={"center"}>
 					<ImageBox />
 				</ImageGrid>
 			)}
