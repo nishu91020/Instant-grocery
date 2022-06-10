@@ -1,12 +1,12 @@
-import React from "react";
-import { Typography } from "@mui/material";
-import { HomeLayout } from "../components/Layouts/HomeLayout";
+import React from 'react';
+import { HomeLayout } from '../components/Layouts/HomeLayout';
+import Authform from '../components/Authform';
 const Signup = () => {
-	return (
-		<HomeLayout>
-			<Typography>Signup</Typography>{" "}
-		</HomeLayout>
-	);
+    return (
+        <HomeLayout>
+            <Authform title="Signup" />
+        </HomeLayout>
+    );
 };
 
 export default Signup;

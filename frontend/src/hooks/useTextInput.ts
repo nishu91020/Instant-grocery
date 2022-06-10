@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
-type UseTextInputProps<C> = {
-	validate: ((value: C) => [error: String, isValid: Boolean]) | null;
+type UseTextInputProps<C extends String> = {
+	validate?: ((value: C) => [error: String, isValid: Boolean]) | null;
 };
 
-const useTextInput = <C>(props: UseTextInputProps<C>) => {
+const useTextInput = <C extends String>({validate}: UseTextInputProps<C>) => {
 	const [value, setValue] = useState<C>();
 	const [error, setError] = useState<String>();
 	const setTextValue = (currentValue: C) => {
-		if (props.validate) {
-			let valid = props.validate(currentValue);
+		if (validate) {
+			let valid = validate(currentValue);
 			if (valid[1]) {
 				setValue(currentValue);
 			} else {
