@@ -46,7 +46,27 @@ const SignupComponent = (props: { title: String }) => {
         if (confirmPassword === password) setConfirmError('');
         else setConfirmError('passwords do not match');
     };
-
+    const validateEmail = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
+        const regexp = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (!regexp.test(email.valueOf())) {
+            setEmailError('invalid email');
+            return;
+        }
+        else {
+            setEmailError('');
+        }
+    };
+    const validatePassword = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
+        if (password.length < 8) {
+            setPasswordError('password is weak');
+            return;
+        }
+        else {
+            setPasswordError('');
+        }
+    };
     const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const vendorDetails: IVendorRequest = {
             firstName,
@@ -85,18 +105,24 @@ const SignupComponent = (props: { title: String }) => {
                         type="email"
                         value={email}
                         required
+                        error={Boolean(emailError)}
+                        errorMessage={emailError}
                         onChange={e => {
                             setEmail(e.target.value);
                         }}
+                        onBlur={validateEmail}
                     />
                     <InputField
                         label="Password"
                         type="password"
                         value={password}
                         required
+                        error={Boolean(passwordError)}
+                        errorMessage={passwordError}
                         onChange={e => {
                             setPassword(e.target.value);
                         }}
+                        onBlur={validatePassword}
                     />
                     <InputField
                         label="Confirm Password"
