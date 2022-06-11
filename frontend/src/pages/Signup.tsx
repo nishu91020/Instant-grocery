@@ -1,12 +1,12 @@
-import React from "react";
-import { HomeLayout } from "../components/Layouts/HomeLayout";
-import Authform from "../components/Authform";
+import React from 'react';
+import { HomeLayout } from '../components/Layouts/HomeLayout';
+import SignupComponent from '../components/Authform/SignupComponent';
 const Signup = () => {
-	return (
-		<HomeLayout>
-			<Authform title="Sign Up" />
-		</HomeLayout>
-	);
+    return (
+        <HomeLayout>
+            <SignupComponent title="Sign Up" />
+        </HomeLayout>
+    );
 };
 
 export default Signup;
