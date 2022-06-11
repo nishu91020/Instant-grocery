@@ -1,5 +1,5 @@
 import React from "react";
-import { FormHelperText, Paper, Typography } from "@mui/material";
+import { FormGroup, Paper, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import InputField from "./InputField";
@@ -7,16 +7,33 @@ import FormButton from "./FormButton";
 import useTextInput from "../../hooks/useTextInput";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-	width: "340px",
+	width: "320px",
 	display: "flex",
+	borderRadius: "8px",
+	minHeight: "460px",
 	flexDirection: "column",
 	alignItems: "center",
-	color: theme.palette.primary.main,
 	padding: [theme.spacing(2), theme.spacing(4)],
 	justifyContent: "center",
 }));
 
-const Authform = (props: { title: String }) => {
+const StyledForm = styled("form")(({ theme }) => ({
+	display: "flex",
+	flexDirection: "column",
+	alignItems: "center",
+	justifyContent: "center",
+
+	"& > * + *": {
+		marginBottom: theme.spacing(2),
+	},
+}));
+
+type AuthformProps = {
+	title: "Sign Up" | "Sign In";
+};
+
+const Authform = (props: AuthformProps) => {
+	const theme = useTheme();
 	const [firstName, firstNameError, setFirstName, setFirstNameError] = useTextInput({});
 	const [lastName, lastNameError, setLastName, setLastNameError] = useTextInput({});
 	const [email, emailError, setEmail, setEmailError] = useTextInput({});
@@ -35,75 +52,90 @@ const Authform = (props: { title: String }) => {
 
 	return (
 		<StyledPaper>
-			<Typography variant="h6" fontWeight={600}>
-				{props.title}
-			</Typography>
-			<InputField
-				label="First Name"
-				type="text"
-				value={firstName}
-				required
-				onChange={(e) => {
-					setFirstName(e.target.value);
-				}}
-			/>
-			<InputField
-				label="Last Name"
-				type="text"
-				value={lastName}
-				required
-				onChange={(e) => {
-					setLastName(e.target.value);
-				}}
-			/>
-			<InputField
-				label="Email"
-				type="email"
-				value={email}
-				required
-				onChange={(e) => {
-					setEmail(e.target.value);
-				}}
-			/>
-			<InputField
-				label="Password"
-				type="password"
-				value={password}
-				required
-				onChange={(e) => {
-					setPassword(e.target.value);
-				}}
-			/>
-			{props.title === "Signup" ? (
-				<>
+			<StyledForm>
+				<Typography color={theme.palette.primary.main} variant="h5" fontWeight={600}>
+					{props.title}
+				</Typography>
+				<FormGroup>
+					{props.title === "Sign Up" && (
+						<>
+							<InputField
+								label="First Name"
+								value={firstName}
+								required
+								onChange={(e) => {
+									setFirstName(e.target.value);
+								}}
+							/>
+							<InputField
+								label="Last Name"
+								value={lastName}
+								required
+								onChange={(e) => {
+									setLastName(e.target.value);
+								}}
+							/>
+						</>
+					)}
 					<InputField
-						label="Confirm Password"
-						type="password"
+						label="Email"
+						type="email"
+						value={email}
 						required
-						value={confirmPassword}
-						error={Boolean(confirmError)}
 						onChange={(e) => {
-							setConfirmPassword(e.target.value);
+							setEmail(e.target.value);
 						}}
-						onBlur={validateConfirmPassword}
 					/>
-				</>
-			) : (
-				""
-			)}
-			<FormButton ButtonName={props.title === "Signup" ? "Signup" : "Signin"} />
-			<Typography>
-				<Link to="/">Forgot Password?</Link>
-			</Typography>
-			{props.title === "Signup" ? (
-				<Typography>
-					Already have an account?<Link to="/signin">Signin</Link>
-				</Typography>
-			) : (
-				<Typography>
-					Don't Have an account?<Link to="/signup">Signup</Link>
-				</Typography>
-			)}
+					<InputField
+						label="Password"
+						type="password"
+						value={password}
+						required
+						onChange={(e) => {
+							setPassword(e.target.value);
+						}}
+					/>
+					{props.title === "Sign Up" && (
+						<>
+							<InputField
+								label="Confirm Password"
+								type="password"
+								required
+								value={confirmPassword}
+								error={Boolean(confirmError)}
+								errorMessage={confirmError}
+								onChange={(e) => {
+									setConfirmPassword(e.target.value);
+								}}
+								onBlur={validateConfirmPassword}
+							/>
+						</>
+					)}
+				</FormGroup>
+				<FormGroup sx={{ width: "100%" }}>
+					<FormButton ButtonName={props.title === "Sign Up" ? "Signup" : "Signin"} />
+				</FormGroup>
+				<FormGroup sx={{ textAlign: "center" }}>
+					<Typography color={theme.palette.primary.main}>
+						<Link to="/">Forgot Password?</Link>
+					</Typography>
+					{props.title === "Sign Up" ? (
+						<Typography>
+							Already have an account?{" "}
+							<Link style={{ color: theme.palette.primary.main }} to="/signin">
+								Sign-in
+							</Link>
+						</Typography>
+					) : (
+						<Typography>
+							Don't Have an account?{" "}
+							<Link style={{ color: theme.palette.primary.main }} to="/signup">
+								Sign-up
+							</Link>
+						</Typography>
+					)}
+				</FormGroup>
+			</StyledForm>
 		</StyledPaper>
 	);
 };
