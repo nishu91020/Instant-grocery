@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material/styles";
-import { Grid, styled, useMediaQuery } from "@mui/material";
+import { Grid, styled, useMediaQuery, useThemeProps } from "@mui/material";
 import { Box } from "@mui/material";
 import React from "react";
 
@@ -15,14 +15,13 @@ const ImageGrid = styled(Grid)(({ theme }) => ({
 }));
 
 const ImageBox = styled(Box)(({ theme }) => ({
-	borderRadius: "50%",
-	height: "90vh",
-	width: "90vw",
+	borderRadius: theme.shape.borderRadius,
+	height: "100%",
 	backgroundImage: "url(/img/hero.jpg)",
 	backgroundPosition: "center",
 	backgroundSize: "cover",
-	borderWidth: "10px",
-	borderColor: theme.palette.secondary.main,
+	borderWidth: "6px",
+	borderColor: theme.palette.grey[50],
 	borderStyle: "solid",
 }));
 
@@ -31,11 +30,11 @@ export const HomeLayout = ({ children }: HomeLayoutProps) => {
 	const matches = useMediaQuery(theme.breakpoints.up("md"));
 	return (
 		<Grid container spacing={2} sx={{ height: "95%" }}>
-			<Grid container item xs={12} md={6} alignItems="center" justifyContent={"center"}>
+			<Grid container item xs={12} md={5} alignItems="center" justifyContent={"center"}>
 				{children}
 			</Grid>
 			{matches && (
-				<ImageGrid item xs={6} alignItems="center" justifyContent={"center"}>
+				<ImageGrid item xs={7} alignItems="center" justifyContent={"center"}>
 					<ImageBox />
 				</ImageGrid>
 			)}
