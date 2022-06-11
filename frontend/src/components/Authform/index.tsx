@@ -1,10 +1,12 @@
-import React from "react";
-import { FormGroup, Paper, Typography, useTheme } from "@mui/material";
+import React, { useContext } from "react";
+import { Button, FormGroup, Paper, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import InputField from "./InputField";
 import FormButton from "./FormButton";
 import useTextInput from "../../hooks/useTextInput";
+import { IVendorRequest } from "../../context/AuthContext/types";
+import { AuthContext, AuthContextType } from "../../context/AuthContext";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	width: "320px",
@@ -34,6 +36,8 @@ type AuthformProps = {
 
 const Authform = (props: AuthformProps) => {
 	const theme = useTheme();
+	const { signup } = useContext(AuthContext) as AuthContextType;
+
 	const [firstName, firstNameError, setFirstName, setFirstNameError] = useTextInput({});
 	const [lastName, lastNameError, setLastName, setLastNameError] = useTextInput({});
 	const [email, emailError, setEmail, setEmailError] = useTextInput({});
@@ -48,6 +52,18 @@ const Authform = (props: AuthformProps) => {
 
 		if (confirmPassword === password) setConfirmError("");
 		else setConfirmError("passwords do not match");
+	};
+
+	const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		if (props.title === "Sign Up") {
+			const vendorDetails: IVendorRequest = {
+				firstName,
+				lastName,
+				email,
+				password,
+			};
+			signup(vendorDetails);
+		}
 	};
 
 	return (
@@ -113,7 +129,9 @@ const Authform = (props: AuthformProps) => {
 					)}
 				</FormGroup>
 				<FormGroup sx={{ width: "100%" }}>
-					<FormButton ButtonName={props.title === "Sign Up" ? "Signup" : "Signin"} />
+					<Button variant="contained" fullWidth size="small" onClick={submitForm}>
+						{props.title === "Sign Up" ? "Sign up" : "Sign in"}
+					</Button>
 				</FormGroup>
 				<FormGroup sx={{ textAlign: "center" }}>
 					<Typography color={theme.palette.primary.main}>
