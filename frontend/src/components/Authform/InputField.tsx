@@ -1,8 +1,32 @@
-import React from 'react';
-import { TextField } from '@mui/material';
+import React from "react";
+import {
+	FormControl,
+	FormHelperText,
+	InputLabel,
+	OutlinedInput,
+	OutlinedInputProps,
+	TextField,
+	TextFieldProps,
+} from "@mui/material";
 
-const InputField = (props: { label: String; type: React.HTMLInputTypeAttribute }) => {
-    return <TextField fullWidth margin="normal" size="small" label={props.label} variant="outlined" type={props.type} />;
+interface InputFieldProps {
+	label?: String;
+	type?: React.HTMLInputTypeAttribute | "text";
+	value?: String;
+	onChange?: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+}
+
+const InputField = (props: InputFieldProps & TextFieldProps) => {
+	return <TextField fullWidth margin="normal" size="small" variant="outlined" {...props} />;
+};
+
+type InputFieldControlProps = {
+	label?: String;
+	value?: String;
+	type?: React.HTMLInputTypeAttribute | "text";
+	onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+	error?: Boolean;
+	errorMessage?: String;
 };
 
 export default InputField;
