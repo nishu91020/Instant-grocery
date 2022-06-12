@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import InputField from './InputField';
 import FormButton from './FormButton';
 import useTextInput from '../../hooks/useTextInput';
-import { IVendorRequest } from '../../context/AuthContext/types';
+import { IVendorSigninRequest } from '../../context/AuthContext/types';
 import { AuthContext, AuthContextType } from '../../context/AuthContext';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -32,9 +32,16 @@ const StyledForm = styled('form')(({ theme }) => ({
 
 const SigninComponent = (props: { title: String }) => {
     const theme = useTheme();
+    const { signin } = useContext(AuthContext) as AuthContextType;
     const [ email, emailError, setEmail, setEmailError ] = useTextInput({});
     const [ password, passwordError, setPassword, setPasswordError ] = useTextInput({});
-
+    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const vendorDetails: IVendorSigninRequest = {
+            email,
+            password
+        };
+        signin(vendorDetails);
+    };
     return (
         <StyledPaper>
             <StyledForm>
@@ -62,7 +69,7 @@ const SigninComponent = (props: { title: String }) => {
                     />
                 </FormGroup>
                 <FormGroup sx={{ width: '100%' }}>
-                    <Button variant="contained" fullWidth size="small">
+                    <Button variant="contained" fullWidth size="small" onSubmit={submitForm}>
                         Signin
                     </Button>
                 </FormGroup>

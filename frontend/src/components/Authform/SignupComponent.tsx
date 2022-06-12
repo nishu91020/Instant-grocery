@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import InputField from './InputField';
 import useTextInput from '../../hooks/useTextInput';
-import { IVendorRequest } from '../../context/AuthContext/types';
+import { IVendorSignupRequest } from '../../context/AuthContext/types';
 import { AuthContext, AuthContextType } from '../../context/AuthContext';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -68,7 +68,7 @@ const SignupComponent = (props: { title: String }) => {
         }
     };
     const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const vendorDetails: IVendorRequest = {
+        const vendorDetails: IVendorSignupRequest = {
             firstName,
             lastName,
             email,
