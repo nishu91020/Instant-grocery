@@ -1,6 +1,8 @@
 import { Typography, AppBar, Toolbar, Button, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext, AuthContextType } from "../../context/AuthContext";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
 	background: grey[50],
@@ -13,6 +15,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
 const Header = () => {
 	const navigate = useNavigate();
+	const { authToken, signout } = useContext(AuthContext) as AuthContextType;
 
 	return (
 		<StyledAppBar position="sticky">
@@ -20,21 +23,35 @@ const Header = () => {
 				<Typography variant="h6" fontWeight={600} sx={{ flexGrow: 1 }}>
 					<Link to="/">Instant Grocery</Link>
 				</Typography>
-				<Button
-					onClick={() => {
-						navigate("/signin");
-					}}>
-					Sign in
-				</Button>
-				<Button
-					variant="contained"
-					size="small"
-					sx={{ margin: "0px 5px" }}
-					onClick={() => {
-						navigate("/signup");
-					}}>
-					Sign up
-				</Button>
+				{authToken ? (
+					<Button
+						variant="contained"
+						size="small"
+						sx={{ margin: "0px 5px" }}
+						onClick={() => {
+							signout();
+						}}>
+						Sign out
+					</Button>
+				) : (
+					<>
+						<Button
+							onClick={() => {
+								navigate("/signin");
+							}}>
+							Sign in
+						</Button>
+						<Button
+							variant="contained"
+							size="small"
+							sx={{ margin: "0px 5px" }}
+							onClick={() => {
+								navigate("/signup");
+							}}>
+							Sign up
+						</Button>
+					</>
+				)}
 			</Toolbar>
 		</StyledAppBar>
 	);
