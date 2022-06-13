@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
     const signin = async (vendorDetails: IVendorSigninRequest) => {
         try {
             console.log('sending request');
-            const res = await api.get('/vendors/login', {
+            const res = await api.post('/vendors/login', {
                 email: vendorDetails.email,
                 password: vendorDetails.password
             });
