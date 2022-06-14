@@ -11,5 +11,29 @@ export const products = [
     {
         name: 'apple',
         description: 'healty'
+    },
+    {
+        name: 'pen',
+        description: 'good gel pen'
+    },
+    {
+        name: 'apple',
+        description: 'healty'
+    },
+    {
+        name: 'pen',
+        description: 'good gel pen'
+    },
+    {
+        name: 'apple',
+        description: 'healty'
+    },
+    {
+        name: 'pen',
+        description: 'good gel pen'
+    },
+    {
+        name: 'apple',
+        description: 'healty'
     }
 ];

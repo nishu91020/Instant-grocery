@@ -3,6 +3,7 @@ import { grey } from "@mui/material/colors";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext, AuthContextType } from "../../context/AuthContext";
+import Sidenav from "../GlobalComponent/Sidenav";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
 	background: grey[50],
@@ -24,6 +25,7 @@ const Header = () => {
 					<Link to="/">Instant Grocery</Link>
 				</Typography>
 				{authToken ? (
+					<>
 					<Button
 						variant="contained"
 						size="small"
@@ -33,6 +35,9 @@ const Header = () => {
 						}}>
 						Sign out
 					</Button>
+					<Sidenav/>
+					</>
+					
 				) : (
 					<>
 						<Button
