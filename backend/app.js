@@ -14,6 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/", v1Router);
 
-app.listen(3000, () => {
-	console.log("listning on port 3000");
+app.listen(3001, () => {
+	console.log("listning on port 3001");
 });
