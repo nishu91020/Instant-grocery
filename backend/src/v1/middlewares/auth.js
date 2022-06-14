@@ -3,6 +3,7 @@ const { sendResponse } = require("../controllers/utility");
 
 exports.getAuthMiddleware = (Client) => async (req, res, next) => {
 	try {
+		console.log(req.header("Authorization"));
 		token = req.header("Authorization").replace("Bearer ", "");
 		decoded = jwt.verify(token, "mysecret");
 		const client = await Client.findOne({ _id: decoded._id, "tokens.token": token });
