@@ -24,9 +24,7 @@ function App () {
                 <Header />
                 {authToken ? (
                     <Routes>
-                        <Route path="/">
-                            <Route index element={<Dashboard />} />
-                        </Route>
+                        <Route path="/" element={<Dashboard />} />
                     </Routes>
                 ) : (
                     <Routes>
