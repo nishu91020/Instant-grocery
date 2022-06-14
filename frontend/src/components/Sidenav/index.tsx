@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IconButton, Menu, MenuItem, Fade } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Menu as Hamburger } from '@mui/icons-material';
 
 const Sidenav = () => {
     const [ anchorEl, setAnchorEl ] = React.useState<null | HTMLElement>(null);
@@ -15,7 +15,7 @@ const Sidenav = () => {
     return (
         <div>
             <IconButton aria-label="menu" onClick={handleClick}>
-                <MenuIcon />
+                <Hamburger />
             </IconButton>
             <Menu
                 id="fade-menu"

@@ -6,8 +6,8 @@ const VendorProducts = () => {
         <List
             sx={{
                 width: '100%',
-                borderRadius:'4px',
-                margin:'1%',
+                borderRadius: '4px',
+                margin: '1%',
                 maxWidth: 360,
                 bgcolor: 'background.paper',
                 position: 'relative',
@@ -18,15 +18,14 @@ const VendorProducts = () => {
             subheader={<li />}
         >
             <ListSubheader>Products</ListSubheader>
-            <Divider component="li"/>
-            {products.map(item => (
-                <>
-                <ListItem>
-                    <ListItemText primary={`${item.name}`} secondary={`${item.description}`} />
-                </ListItem>
-                <Divider component="li"/>
-                </>
-                
+            <Divider component="li" />
+            {products.map((item, index) => (
+                <div key={index}>
+                    <ListItem>
+                        <ListItemText primary={`${item.name}`} secondary={`${item.description}`} />
+                    </ListItem>
+                    <Divider component="li" />
+                </div>
             ))}
         </List>
     );

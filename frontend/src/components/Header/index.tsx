@@ -3,7 +3,7 @@ import { grey } from "@mui/material/colors";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext, AuthContextType } from "../../context/AuthContext";
-import Sidenav from "../GlobalComponent/Sidenav";
+import Sidenav from "../Sidenav";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
 	background: grey[50],
