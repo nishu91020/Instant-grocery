@@ -5,14 +5,12 @@ const VendorProducts = () => {
     return (
         <List
             sx={{
-                width: '100%',
                 borderRadius: '4px',
-                margin: '1%',
-                maxWidth: 360,
+                flexGrow: 1,
                 bgcolor: 'background.paper',
                 position: 'relative',
                 overflow: 'auto',
-                maxHeight: 300,
+                maxHeight: 350,
                 '& ul': { padding: 0 }
             }}
             subheader={<li />}

@@ -13,7 +13,7 @@ import Dashboard from './pages/Dashboard';
 
 const StyledRoot = styled(Box)(({ theme }) => ({
     background: theme.palette.primary.light,
-    height: '100vh'
+    minHeight: '100vh'
 }));
 
 function App () {
