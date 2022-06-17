@@ -1,4 +1,6 @@
+const { Address } = require("../Models/address");
 const Vendor = require("../Models/vendor");
+const { addAddress } = require("../services/addressServices");
 const { loginUser, generateToken } = require("../services/authServices");
 
 const {
@@ -21,8 +23,9 @@ exports.loginVendor = async (req, res, next) => {
 			token,
 		});
 	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: err.message,
+		next({
+			status: 400,
+			message: err.message,
 		});
 	}
 };
@@ -39,10 +42,9 @@ exports.getVendor = async (req, res, next) => {
 			},
 		});
 	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
-			},
+		next({
+			status: 400,
+			message: err.message,
 		});
 	}
 };
@@ -59,9 +61,9 @@ exports.getProfile = async (req, res, next) => {
 			vendor: vendor.displayProfile,
 		});
 	} catch (err) {
-		console.log(err);
-		sendResponse(res, 400, "failed", {
-			error: err.message,
+		next({
+			status: 400,
+			message: err.message,
 		});
 	}
 };
@@ -69,19 +71,39 @@ exports.getProfile = async (req, res, next) => {
 // Add a new Vendor
 exports.addVendor = async (req, res, next) => {
 	try {
-		const REQUIRED = ["firstName", "lastName", "email", "password"];
+		const REQUIRED = [
+			"firstName",
+			"lastName",
+			"email",
+			"password",
+			"businessPhoneNo",
+			"businessName",
+			"gstin",
+			"address",
+		];
+
 		const vendorData = validateRequestBody(REQUIRED, req.body);
+
+		const address = vendorData.address;
+
+		address.contactNumber = vendorData.businessPhoneNo;
+		delete vendorData.address;
+
 		const vendor = await addNewVendor(vendorData);
-		const token = generateToken(vendor);
+
+		// adding address to the vendor;
+		const { client, _ } = await addAddress(address, Vendor, vendor._id);
+
+		const token = await generateToken(client);
+
 		sendResponse(res, 200, "success", {
-			vendor: vendor.displayProfile,
+			vendor: client.profile,
 			token,
 		});
 	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
-			},
+		next({
+			status: 400,
+			message: err.message,
 		});
 	}
 };
@@ -95,10 +117,9 @@ exports.removeVendor = async (req, res, next) => {
 			vendor: vendor.displayProfile,
 		});
 	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
-			},
+		next({
+			status: 400,
+			message: err.message,
 		});
 	}
 };
@@ -111,10 +132,9 @@ exports.getVendors = async (req, res, next) => {
 			vendors,
 		});
 	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
-			},
+		next({
+			status: 400,
+			message: err.message,
 		});
 	}
 };
@@ -127,10 +147,9 @@ exports.updateVendor = async (req, res, next) => {
 			vendor: vendor.displayProfile,
 		});
 	} catch (err) {
-		sendResponse(res, 400, "failed", {
-			error: {
-				message: err.message,
-			},
+		next({
+			status: 400,
+			message: err.message,
 		});
 	}
 };
