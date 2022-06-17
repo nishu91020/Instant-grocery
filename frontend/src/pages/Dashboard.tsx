@@ -1,9 +1,9 @@
-import StatsCard from "../components/dashboradComponent/StatsCard";
-import VendorProducts from "../components/dashboradComponent/VendorProducts";
-import VendorProfile from "../components/dashboradComponent/VendorProfile";
+import StatsCard from "../components/DashboradComponent/StatsCard";
+import VendorProducts from "../components/DashboradComponent/VendorProducts";
+import VendorProfile from "../components/DashboradComponent/VendorProfile";
 
 import { Grid, Paper, Typography, useTheme } from "@mui/material";
-import ProductsTable from "../components/dashboradComponent/ProductsTable";
+import ProductsTable from "../components/DashboradComponent/ProductsTable";
 
 const Dashboard = () => {
 	const Theme = useTheme();

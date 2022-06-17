@@ -6,6 +6,10 @@ const Schema = mongoose.Schema;
 const VendorSchema = Schema({
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
+	businessPhoneNo: { type: String, required: true },
+
+	gstin: { type: String, required: true, length: 15 },
+	businessName: { type: String, required: true, unique: true },
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
 	orders: [
@@ -20,6 +24,7 @@ const VendorSchema = Schema({
 			ref: "Address",
 		},
 	],
+
 	products: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Product" }],
 	tokens: [
 		{
@@ -34,6 +39,21 @@ VendorSchema.virtual("displayProfile").get(function () {
 	return {
 		firstName: vendor.firstName,
 		lastName: vendor.lastName,
+		businessPhoneNo: vendor.businessPhoneNo,
+		businessName: vendor.businessName,
+		email: vendor.email,
+	};
+});
+
+VendorSchema.virtual("profile").get(function () {
+	const vendor = this;
+	return {
+		firstName: vendor.firstName,
+		lastName: vendor.lastName,
+		businessPhoneNo: vendor.businessPhoneNo,
+		gstin: vendor.gstin,
+		address: vendor.address,
+		businessName: vendor.businessName,
 		email: vendor.email,
 	};
 });
