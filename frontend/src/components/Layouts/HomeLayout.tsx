@@ -9,7 +9,6 @@ type HomeLayoutProps = {
 
 const ImageGrid = styled(Grid)(({ theme }) => ({
     alignItems: 'center',
-
     justifyContent: 'center',
     overflow: 'hidden'
 }));
@@ -21,6 +20,7 @@ const ImageBox = styled(Box)(({ theme }) => ({
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     borderWidth: '6px',
+    padding: '0px',
     borderColor: theme.palette.grey[50],
     borderStyle: 'solid'
 }));
@@ -29,12 +29,12 @@ export const HomeLayout = ({ children }: HomeLayoutProps) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
     return (
-        <Grid container spacing={2} sx={{ height: '95%' }}>
+        <Grid container sx={{ height: '95%' }}>
             <Grid container item xs={12} md={5} alignItems="center" justifyContent={'center'}>
                 {children}
             </Grid>
             {matches && (
-                <ImageGrid item xs={7} alignItems="center" justifyContent={'center'}>
+                <ImageGrid item xs={7}>
                     <ImageBox />
                 </ImageGrid>
             )}

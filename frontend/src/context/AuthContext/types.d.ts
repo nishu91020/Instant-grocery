@@ -7,4 +7,18 @@ export type IVendorSigninRequest = {
     email: String;
     password: String;
 };
-export type IVendorSignupRequest = IVendor & { password: String };
+export type IAddress = {
+    street: String;
+    city: String;
+    state: String;
+    pincode: String;
+    locality: String;
+    landmark: String;
+    contactNumber: String;
+};
+export type IVendorSignupRequest = IVendor & {
+    businessPhoneNo: String;
+    gstin: String;
+    businessName: String;
+    password: String;
+};
