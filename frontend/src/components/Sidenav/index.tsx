@@ -1,37 +1,34 @@
 import * as React from 'react';
-import { IconButton, Menu, MenuItem, Fade } from '@mui/material';
-import { Menu as Hamburger } from '@mui/icons-material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, styled, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import InboxIcon from '@mui/icons-material/Inbox';
+import MailIcon from '@mui/icons-material/Mail';
 
-const Sidenav = () => {
-    const [ anchorEl, setAnchorEl ] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
+const StyledList = styled(List)(({ theme }) => ({
+    width: '250px',
+    color: theme.palette.primary.main,
+    display: 'flex',
+    flexDirection: 'column'
+}));
+export const Sidenav = () => {
     return (
-        <div>
-            <IconButton aria-label="menu" onClick={handleClick}>
-                <Hamburger />
-            </IconButton>
-            <Menu
-                id="fade-menu"
-                MenuListProps={{
-                    'aria-labelledby': 'fade-button'
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Fade}
-            >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-        </div>
+        <StyledList>
+            <ListItem disablePadding>
+                <ListItemButton>
+                    <Typography variant="h6" fontWeight={600} sx={{ flexGrow: 1 }}>
+                        <Link to="/">Instant Grocery</Link>
+                    </Typography>
+                </ListItemButton>
+            </ListItem>
+
+            {[ 'Inbox', 'Starred', 'Send email', 'Drafts' ].map((text, index) => (
+                <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                        <ListItemText primary={text} />
+                    </ListItemButton>
+                </ListItem>
+            ))}
+        </StyledList>
     );
 };
-export default Sidenav;

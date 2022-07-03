@@ -1,9 +1,11 @@
-import { Typography, AppBar, Toolbar, Button, styled } from "@mui/material";
+import React from 'react';
+import { Typography, AppBar, Toolbar, Button, styled,Drawer } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext, AuthContextType } from "../../context/AuthContext";
-import Sidenav from "../Sidenav";
+import {Sidenav} from "../Sidenav";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
 	background: grey[50],
@@ -17,13 +19,28 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 const Header = () => {
 	const navigate = useNavigate();
 	const { authToken, signout } = useContext(AuthContext) as AuthContextType;
-
+	 const [ open, setOpen ] = React.useState(false);
+    const toggleDrawer = (state:boolean) => {
+        setOpen(state);
+    };
 	return (
 		<StyledAppBar position="sticky">
 			<Toolbar sx={{}}>
+				{
+					authToken?(
+						<>
+						<Button onClick={() => toggleDrawer(true)}><MenuIcon /></Button>
+						<Drawer onClose={()=>toggleDrawer(false)} open={open}>
+							{Sidenav()}
+						</Drawer>
+						</>
+						
+					):null
+				}
+				
 				<Typography variant="h6" fontWeight={600} sx={{ flexGrow: 1 }}>
-					<Link to="/">Instant Grocery</Link>
-				</Typography>
+                <Link to="/">Instant Grocery</Link>
+                </Typography>
 				{authToken ? (
 					<>
 					<Button
@@ -35,7 +52,7 @@ const Header = () => {
 						}}>
 						Sign out
 					</Button>
-					<Sidenav/>
+					
 					</>
 					
 				) : (
