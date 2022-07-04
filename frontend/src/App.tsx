@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Header from './components/Header';
+import AddProduct from './pages/AddProduct';
 import { AuthContext, AuthContextType, AuthProvider } from './context/AuthContext';
 import Dashboard from './pages/Dashboard';
 
@@ -34,6 +35,7 @@ function App () {
                             <Route path="/" element={<Home />} />
                             <Route path="/signup" element={<Signup />} />
                             <Route path="/signin" element={<Signin />} />
+                            <Route path="/addproduct" element={<AddProduct />} />
                         </Routes>
                     </Container>
                 )}
