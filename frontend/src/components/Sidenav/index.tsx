@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, styled, Typography, useTheme, Link as MaterialLink } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { NavLink } from 'react-router-dom';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -10,57 +11,87 @@ const StyledList = styled(List)(({ theme }) => ({
     display: 'flex',
     width: '250px',
     flexDirection: 'column',
-    flex: 1,
-    border: '2px solid red'
+    flex: 1
 }));
-export const Sidenav = () => {
+const StyledNavLink = styled(NavLink)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%'
+}));
+
+export const Sidenav = (setOpen: (open: boolean) => void) => {
     const Theme = useTheme();
     return (
         <StyledList>
             <ListItem disablePadding>
-                <ListItemButton>
-                    <MaterialLink href="/" underline="none">
+                <StyledNavLink
+                    to="/"
+                    onClick={() => {
+                        setOpen(false);
+                    }}
+                >
+                    <ListItemButton>
                         <Typography variant="h6" fontWeight={600} sx={{ flexGrow: 1, paddingBottom: '25px' }}>
                             Instant Grocery
                         </Typography>
-                    </MaterialLink>
-                </ListItemButton>
+                    </ListItemButton>
+                </StyledNavLink>
             </ListItem>
 
             <ListItem disablePadding>
-                <ListItemButton>
-                    <MaterialLink href="addproduct" underline="none" sx={{ display: 'flex', flexDirection: 'row' }}>
+                <StyledNavLink
+                    to="/addproduct"
+                    onClick={() => {
+                        setOpen(false);
+                    }}
+                >
+                    <ListItemButton>
                         <AddIcon sx={{ color: Theme.palette.primary.main }} />
                         <ListItemText primary="Add Product" />
-                    </MaterialLink>
-                </ListItemButton>
+                    </ListItemButton>
+                </StyledNavLink>
             </ListItem>
 
             <ListItem disablePadding>
-                <ListItemButton>
-                    <MaterialLink href="addproduct" underline="none" sx={{ display: 'flex', flexDirection: 'row' }}>
+                <StyledNavLink
+                    to="addproduct"
+                    onClick={() => {
+                        setOpen(false);
+                    }}
+                >
+                    <ListItemButton>
                         <LocalGroceryStoreIcon sx={{ color: Theme.palette.primary.main }} />
                         <ListItemText primary="Orders" />
-                    </MaterialLink>
-                </ListItemButton>
+                    </ListItemButton>
+                </StyledNavLink>
             </ListItem>
 
             <ListItem disablePadding>
-                <ListItemButton>
-                    <MaterialLink href="addproduct" underline="none" sx={{ display: 'flex', flexDirection: 'row' }}>
+                <StyledNavLink
+                    to="addproduct"
+                    onClick={() => {
+                        setOpen(false);
+                    }}
+                >
+                    <ListItemButton>
                         <ManageAccountsIcon sx={{ color: Theme.palette.primary.main }} />
                         <ListItemText primary="Update Profile" />
-                    </MaterialLink>
-                </ListItemButton>
+                    </ListItemButton>
+                </StyledNavLink>
             </ListItem>
 
             <ListItem disablePadding>
-                <ListItemButton>
-                    <MaterialLink href="addproduct" underline="none" sx={{ display: 'flex', flexDirection: 'row' }}>
+                <StyledNavLink
+                    to="addproduct"
+                    onClick={() => {
+                        setOpen(false);
+                    }}
+                >
+                    <ListItemButton>
                         <AddPhotoAlternateIcon sx={{ color: Theme.palette.primary.main }} />
                         <ListItemText primary="Add Address" />
-                    </MaterialLink>
-                </ListItemButton>
+                    </ListItemButton>
+                </StyledNavLink>
             </ListItem>
         </StyledList>
     );

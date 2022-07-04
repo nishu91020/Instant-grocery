@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { ThemeProvider, styled } from '@mui/material/styles';
 import Theme from './Themes';
@@ -27,6 +27,7 @@ function App () {
                     <Container maxWidth={'lg'}>
                         <Routes>
                             <Route path="/" element={<Dashboard />} />
+                            <Route path="addproduct" element={<AddProduct />} />
                         </Routes>
                     </Container>
                 ) : (
@@ -35,7 +36,6 @@ function App () {
                             <Route path="/" element={<Home />} />
                             <Route path="/signup" element={<Signup />} />
                             <Route path="/signin" element={<Signin />} />
-                            <Route path="/addproduct" element={<AddProduct />} />
                         </Routes>
                     </Container>
                 )}

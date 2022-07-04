@@ -31,7 +31,7 @@ const Header = () => {
 						<>
 						<Button onClick={() => toggleDrawer(true)}><MenuIcon /></Button>
 						<Drawer onClose={()=>toggleDrawer(false)} open={open}>
-							{Sidenav()}
+							{Sidenav(setOpen)}
 						</Drawer>
 						</>
 						
